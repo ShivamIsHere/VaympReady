@@ -10,6 +10,7 @@ import Footer from "../components/Layout/Footer";
 import axios from "axios";
 import { server } from "../server";
 import { Oval } from 'react-loader-spinner';
+import styles from "../styles/styles";
 
 const AllOrders = () => {
   const { user } = useSelector((state) => state.user);
@@ -101,7 +102,9 @@ const AllOrders = () => {
         </div>
       ) : (
         <div className="">
-          {rows.map((row) => (
+<div className={`${styles.noramlFlex} p-4`}>
+      <h1 className="text-xl font-bold">My Orders</h1>
+    </div>          {rows.map((row) => (
             <OrderCard key={row.id} order={row} />
           ))}
         </div>

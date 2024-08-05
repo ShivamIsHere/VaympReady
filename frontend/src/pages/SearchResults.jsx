@@ -99,38 +99,62 @@ const SearchResults = () => {
     accessorySubCategorie: false,
     footwearSubCategorie: false,
   });
-
+console.log("aaaaa",)
   const isLargeScreen = useMediaQuery({ query: '(min-width: 1024px)' });
   const isSmallOrMediumScreen = useMediaQuery({ query: '(max-width: 1023px)' });
+  
+  
+
+
+
+
+  const parseFiltersFromURL = (searchParams) => ({
+    colors: searchParams.get("colors") ? searchParams.get("colors").split(",") : [],
+    sizes: searchParams.get("sizes") ? searchParams.get("sizes").split(",") : [],
+    brandingDatas: searchParams.get("brandingDatas") ? searchParams.get("brandingDatas").split(",") : [],
+    neckTypes: searchParams.get("neckTypes") ? searchParams.get("neckTypes").split(",") : [],
+    sleeveTypes: searchParams.get("sleeveTypes") ? searchParams.get("sleeveTypes").split(",") : [],
+    fabrics: searchParams.get("fabrics") ? searchParams.get("fabrics").split(",") : [],
+    occasions: searchParams.get("occasions") ? searchParams.get("occasions").split(",") : [],
+    fits: searchParams.get("fits") ? searchParams.get("fits").split(",") : [],
+    subCategorys: searchParams.get("subCategorys") ? searchParams.get("subCategorys").split(",") : [],
+    genders: searchParams.get("genders") ? searchParams.get("genders").split(",") : [],
+    customerRatings: searchParams.get("customerRatings") ? searchParams.get("customerRatings").split(",") : [],
+    priceRanges: searchParams.get("priceRanges") ? searchParams.get("priceRanges").split(",") : [],
+    shoeSize: searchParams.get("shoeSize") ? searchParams.get("shoeSize").split(",") : [],
+    shoeOccasion: searchParams.get("shoeOccasion") ? searchParams.get("shoeOccasion").split(",") : [],
+    accessorySubCategorie: searchParams.get("accessorySubCategorie") ? searchParams.get("accessorySubCategorie").split(",") : [],
+    footwearSubCategorie: searchParams.get("footwearSubCategorie") ? searchParams.get("footwearSubCategorie").split(",") : [],
+  });
+
+  const compareFilters = (filters1, filters2) => {
+    const keys = Object.keys(filters1);
+    for (let key of keys) {
+      if (filters1[key].join(",") !== filters2[key].join(",")) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-
-    const initialFilters = {
-      colors: searchParams.get("colors") ? searchParams.get("colors").split(",") : [],
-      sizes: searchParams.get("sizes") ? searchParams.get("sizes").split(",") : [],
-      brandingDatas: searchParams.get("brandingDatas") ? searchParams.get("brandingDatas").split(",") : [],
-      neckTypes: searchParams.get("neckTypes") ? searchParams.get("neckTypes").split(",") : [],
-      sleeveTypes: searchParams.get("sleeveTypes") ? searchParams.get("sleeveTypes").split(",") : [],
-      fabrics: searchParams.get("fabrics") ? searchParams.get("fabrics").split(",") : [],
-      occasions: searchParams.get("occasions") ? searchParams.get("occasions").split(",") : [],
-      fits: searchParams.get("fits") ? searchParams.get("fits").split(",") : [],
-      subCategorys: searchParams.get("subCategorys") ? searchParams.get("subCategorys").split(",") : [],
-      genders: searchParams.get("genders") ? searchParams.get("genders").split(",") : [],
-      customerRatings: searchParams.get("customerRatings") ? searchParams.get("customerRatings").split(",") : [],
-      priceRanges: searchParams.get("priceRanges") ? searchParams.get("priceRanges").split(",") : [],
-      shoeSize: searchParams.get("shoeSize") ? searchParams.get("shoeSize").split(",") : [],
-      shoeOccasion: searchParams.get("shoeOccasion") ? searchParams.get("shoeOccasion").split(",") : [],
-      accessorySubCategorie: searchParams.get("accessorySubCategorie") ? searchParams.get("accessorySubCategorie").split(",") : [],
-      footwearSubCategorie: searchParams.get("footwearSubCategorie") ? searchParams.get("footwearSubCategorie").split(",") : [],
-    };
+    const newFilters = parseFiltersFromURL(searchParams);
 
     const initialSortBy = searchParams.get("sortBy") || "";
     const initialPage = parseInt(searchParams.get("page")) || 1;
 
-    setFilters(initialFilters);
-    setSortBy(initialSortBy);
-    setCurrentPage(initialPage);
-  }, [query]);
+    // Only update state if there is a change in filters or sortBy or currentPage
+    if (
+      !compareFilters(newFilters, filters) ||
+      initialSortBy !== sortBy ||
+      initialPage !== currentPage
+    ) {
+      setFilters(newFilters);
+      setSortBy(initialSortBy);
+      setCurrentPage(initialPage);
+    }
+  }, [location]);
 
   const updateURLParams = (newFilters) => {
     const searchParams = new URLSearchParams();

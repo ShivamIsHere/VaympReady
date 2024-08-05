@@ -62,11 +62,11 @@ const Address = () => {
           {
             userName: name,
             phoneNumber,
-            altphoneNumber,
-            landmark,
+            // altphoneNumber,
+            // landmark,
             city,
             address1,
-            address2,
+            // address2,
             zipCode,
             addressType: "Home",
             isLastUsed: true
@@ -95,9 +95,9 @@ const Address = () => {
   return (
 <>
 <Header/>    
-<div className="w-full px-5">
+<div className="w-full px-4">
       {open && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-25 z-50">
+        <div className="fixed inset-0 flex top-8 bottom-8 items-center justify-center bg-black bg-opacity-25 z-50">
          <div className="bg-white w-full sm:max-w-full md:max-w-xl p-4 sm:p-4 md:p-8 rounded-lg shadow-lg relative max-h-screen overflow-y-auto">
             <div className="flex justify-end">
               <button
@@ -110,7 +110,7 @@ const Address = () => {
             <h1 className="text-center text-2xl font-bold my-4">Add New Address</h1>
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block pb-2">Name</label>
+                <label className="block pb-2">Name <span className="text-red-500">*</span></label>
                 <input
                   type="text"
                   className="border h-[40px] rounded-[5px] w-full"
@@ -215,9 +215,9 @@ const Address = () => {
         </div>
       )}
       <div className="flex w-full items-center justify-between">
-        <h1 className="text-2xl font-bold text-[#000000ba] pb-2">My Addresses</h1>
+        <h1 className="text-xl font-bold text-[#000000ba] pb-2">My Addresses</h1>
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded cursor-pointer"
           onClick={() => setOpen(true)}
         >
           Add New

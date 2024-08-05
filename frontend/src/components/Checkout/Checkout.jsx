@@ -57,6 +57,7 @@ const Checkout = () => {
     if (
       username === "" ||
       address1 === "" ||
+      address2 === "" ||
       zipCode === null ||
       phoneNumber === "" ||
       city === ""

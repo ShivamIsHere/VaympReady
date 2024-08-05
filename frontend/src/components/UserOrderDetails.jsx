@@ -19,7 +19,7 @@ const UserOrderDetails = () => {
   const dispatch = useDispatch();
   const [comment, setComment] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
-  const [rating, setRating] = useState(1);
+  const [rating, setRating] = useState(0);
   const { user, isAuthenticated } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [kuchvi, setkuchvi] = useState([]);

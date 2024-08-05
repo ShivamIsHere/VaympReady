@@ -55,7 +55,7 @@ const Wishlist = ({ setOpenWishlist }) => {
                   />
               )}
             </div>
-            <h5>Wishlist Items is empty!</h5>
+            <h5><strong>Wishlist is empty!</strong></h5>
           </div>
         ) : (
           <>
@@ -69,6 +69,9 @@ const Wishlist = ({ setOpenWishlist }) => {
                   />
               )}
               </div>
+              <div className={`${styles.noramlFlex} p-4`}>
+      <h1 className="text-xl font-bold">My Wishlist</h1>
+    </div>
               {/* Item length */}
               <div className={`${styles.noramlFlex} p-4`}>
                 <AiOutlineHeart size={25} />
