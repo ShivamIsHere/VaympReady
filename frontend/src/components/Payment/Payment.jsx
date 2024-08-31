@@ -60,6 +60,9 @@ const Payment = () => {
     shippingAddress: orderData?.shippingAddress,
     user: user && user,
     totalPrice: orderData?.totalPrice,
+    shopId:orderData?.shopId,
+    couponId:orderData?.couponId,
+    discount:orderData?.discount,
   };
 
   const onApprove = async (data, actions) => {

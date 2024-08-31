@@ -259,7 +259,24 @@ const AdminSideBar = ({ active }) => {
           </h5>
         </Link>
       </div>
-
+      <div className="w-full flex items-center p-4">
+        <Link
+          to="/admin-all-coupon"
+          className="w-full flex items-center"
+        >
+          <CiMoneyBill
+            size={30}
+            color={`${active === 13 ? "crimson" : "#555"}`}
+          />
+          <h5
+            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
+              active === 13 ? "text-[crimson]" : "text-[#555]"
+            }`}
+          >
+            Cancel Orders
+          </h5>
+        </Link>
+      </div>
     </div>
   );
 };

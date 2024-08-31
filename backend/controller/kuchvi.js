@@ -9,6 +9,7 @@ const Product = require("../model/product");
 const Kuchvi = require("../model/kuchvi");
 
 const axios = require("axios");
+const CoupounCode = require("../model/coupounCode");
 // Create new order
 router.post(
   "/create-kuchvi",
@@ -78,7 +79,8 @@ router.post(
 // all products --- for admin
 router.get(
     "/get-all-admin-kuchvi-request",
-    
+    isAuthenticated,
+    isAdmin("Admin"),
     catchAsyncErrors(async (req, res, next) => {
       try {
         const kuchvis1 = await Kuchvi.find();
@@ -221,5 +223,49 @@ router.get(
       }
     })
   );
+  
+
+
+
+
+
+  router.patch(
+    "/update-seller-amount",
+    catchAsyncErrors(async (req, res, next) => {
+      try {
+        const { shopid, couponid, discountPercentenge } = req.body;
+  console.log("mmmmmmmm")
+        if (!shopid || !couponid) {
+          return next(new ErrorHandler("Invalid shopid or couponid provided", 400));
+        }
+  
+        const seller = await Shop.findById(shopid);
+        const coupon = await CoupounCode.findById(couponid);
+  
+        if (!seller) {
+          return next(new ErrorHandler(`Seller not found with ID: ${shopid}`, 404));
+        }
+  
+        if (!coupon) {
+          return next(new ErrorHandler(`Coupon not found with ID: ${couponid}`, 404));
+        }
+  
+        seller.availableBalance += discountPercentenge;
+        coupon.totalUsed += 1;
+  
+        await seller.save();
+        await coupon.save();
+  
+        res.status(200).json({
+          success: true,
+          message: "Seller's balance and coupon usage updated successfully",
+        });
+      } catch (error) {
+        console.error("Error updating seller and coupon:", error);
+        return next(new ErrorHandler(error.message, 500));
+      }
+    })
+  );
+  
   
 module.exports = router;

@@ -9,30 +9,40 @@ const SuggestedProduct = ({ data }) => {
 
   useEffect(() => {
     let filteredData = [];
-    
-    if (data.subCategory) {
-      filteredData = allProducts.filter(
+  
+    if (data.subCategory && Array.isArray(data.subCategory)) {
+      filteredData = filteredData.concat(allProducts.filter(
         (product) =>
           product.listing !== "Event" &&
-          product.subCategory === data.subCategory
-      );
-    } else if (data.footwearSubCategories) {
-      filteredData = allProducts.filter(
-        (product) =>
-          product.listing !== "Event" &&
-          product.footwearSubCategories === data.footwearSubCategories
-      );
+          product._id !== data._id && 
+          product.gender === data.gender && 
+          product.subCategory &&
+          product.subCategory.some((cat) => data.subCategory.includes(cat))
+      ));
     }
-
+  
+    if (data.footwearSubCategories && Array.isArray(data.footwearSubCategories)) {
+      filteredData = filteredData.concat(allProducts.filter(
+        (product) =>
+          product.listing !== "Event" &&
+          product.gender === data.gender && 
+          product._id !== data._id && 
+          product.footwearSubCategories &&
+          product.footwearSubCategories.some((cat) =>
+            data.footwearSubCategories.includes(cat)
+          )
+      ));
+    }
+  
     setProductData(filteredData.slice(0, 10));
-  }, [allProducts, data.subCategory, data.footwearSubCategories]);
-
-  console.log("11111111", data);
+  }, [allProducts, data.subCategory, data.footwearSubCategories, data.gender]);
+  
+  console.log("Filtered Products:", productData);
 
   return (
     <div>
       {data ? (
-        <div className={`p-3`}>
+        <div className="p-3">
           <h2 className={`${styles.heading} text-[25px] font-[500] border-b mb-5`}>
             Related Products
           </h2>

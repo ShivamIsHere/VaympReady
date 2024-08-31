@@ -172,3 +172,111 @@ const AllProducts = () => {
 };
 
 export default AllProducts;
+// import React, { useEffect, useState } from "react";
+// import { Link } from "react-router-dom";
+// import { useDispatch, useSelector } from "react-redux";
+// import QRCode from "qrcode.react";
+// import { v4 as uuidv4 } from "uuid";
+// import { updateProductStock } from '../../redux/actions/product';
+// import { getAllProductsShop } from "../../redux/actions/product"; // Ensure you have an action to update quantity
+// import Loader from "../Layout/Loader";
+// import QRCodeScanner from "./QRCodeScanner"; // Import your scanner
+
+// const AllProducts = () => {
+//   const { products, isLoading } = useSelector((state) => state.products);
+//   const { seller } = useSelector((state) => state.seller);
+//   const dispatch = useDispatch();
+
+//   useEffect(() => {
+//     dispatch(getAllProductsShop(seller._id));
+//   }, [dispatch, seller._id]);
+
+//   const [selectedSize, setSelectedSize] = useState({});
+//   const [scannedData, setScannedData] = useState(null);
+
+//   const handleSizeChange = (productId, size) => {
+//     setSelectedSize((prevSize) => ({ ...prevSize, [productId]: size }));
+//   };
+
+//   const generateQRCodeData = (productId, size) => {
+//     return JSON.stringify({ productId, size, uuid: uuidv4() });
+//   };
+
+//   const handleScan = (data) => {
+//     if (data) {
+//       const parsedData = JSON.parse(data);
+//       const { productId, size } = parsedData;
+//       setScannedData({ productId, size });
+
+//       // Call the API to update the quantity
+//       dispatch(updateProductStock(productId, size));
+//     }
+//   };
+
+//   return (
+//     <div className="container mx-auto px-4 py-8">
+//       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+//         {isLoading ? (
+//           <Loader />
+//         ) : products && products.length > 0 ? (
+//           products.map((product) => (
+//             <div key={product._id} className="relative bg-white border border-gray-300 rounded-lg shadow-lg p-4">
+//               <Link to={`/product/${product._id}`}>
+//                 <div className="w-full h-48 relative overflow-hidden rounded-t-lg">
+//                   <img
+//                     src={product.images[0]?.url}
+//                     alt={product.name}
+//                     className="w-full h-full object-contain transition-transform duration-300 ease-in-out hover:scale-110"
+//                   />
+//                 </div>
+//               </Link>
+//               <div className="p-2 flex flex-col">
+//                 <Link
+//                   to={`/product/${product._id}`}
+//                   className="text-md font-semibold text-gray-800 hover:text-blue-600 transition-colors duration-300 block truncate"
+//                 >
+//                   {product.name}
+//                 </Link>
+//                 <p className="text-gray-600 text-sm mt-1">Price: ₹{product.ShopPrice}</p>
+//                 <div className="flex items-center gap-2 mt-2">
+//                   <select
+//                     className="border border-gray-300 rounded-md shadow-sm text-sm focus:ring-blue-500 focus:border-blue-500 w-24"
+//                     value={selectedSize[product._id] || ""}
+//                     onChange={(e) => handleSizeChange(product._id, e.target.value)}
+//                   >
+//                     <option value="">Select Size</option>
+//                     {product.stock?.map((stockItem, index) => (
+//                       <option key={`${stockItem.size}-${index}`} value={stockItem.size}>
+//                         {stockItem.size}
+//                       </option>
+//                     ))}
+//                   </select>
+//                 </div>
+//                 {selectedSize[product._id] && (
+//                   <div className="mt-4">
+//                     <QRCode value={generateQRCodeData(product._id, selectedSize[product._id])} />
+//                   </div>
+//                 )}
+//               </div>
+//             </div>
+//           ))
+//         ) : (
+//           <div className="col-span-full text-center text-gray-500 text-lg">No products found.</div>
+//         )}
+//       </div>
+      
+//       {/* QR Code Scanner */}
+//       <QRCodeScanner onScan={handleScan} />
+      
+//       {/* Display the scanned data */}
+//       {scannedData && (
+//         <div className="mt-8 text-center">
+//           <p>Scanned Product ID: {scannedData.productId}</p>
+//           <p>Scanned Size: {scannedData.size}</p>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default AllProducts;

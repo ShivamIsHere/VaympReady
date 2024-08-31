@@ -15,6 +15,7 @@ export const createProduct =
     shoeOccasions,
     color,
     fabric,
+    pattern,
     occasion,
     fit,
     listing,
@@ -64,6 +65,7 @@ export const createProduct =
         eventType,
         adminCreated,
         fabric,
+        pattern,
         occasion,
         fit,
         listing,
@@ -89,19 +91,25 @@ export const createProduct =
   };
 
 // get All Products of a shop
-export const getAllProductsShop = (id) => async (dispatch) => {
+export const getAllProductsShop = (id, page = 1, sortBy = '',categories='',gender = '') => async (dispatch) => {
   try {
     dispatch({
       type: "getAllProductsShopRequest"
     });
 
     const { data } = await axios.get(
-      `${server}/product/get-all-products-shop/${id}`,
-      
+      `${server}/product/get-all-products-shop/${id}?categories=${categories}&sortBy=${sortBy}&page=${page}&gender=${gender}`
     );
+    
     dispatch({
       type: "getAllProductsShopSuccess",
-      payload: data.products
+      payload: {
+        products: data.products,
+        product: data.product,
+        currentPage: data.currentPage,
+        totalPages: data.totalPages,
+        totalPage: data.totalPage,
+      }
     });
   } catch (error) {
     dispatch({
@@ -110,6 +118,7 @@ export const getAllProductsShop = (id) => async (dispatch) => {
     });
   }
 };
+
 
 // delete product of a shop
 export const deleteProduct = (id) => async (dispatch) => {
@@ -175,35 +184,49 @@ export const getAllProducts = (queryParams) => async (dispatch) => {
 };
 
 
-export const updateProductStock =
-  (productId, size, quantity) => async (dispatch) => {
-    try {
-      dispatch({
-        type: "updateProductStockRequest"
-      });
+export const updateProductStock = (productId, size, quantity) => async (dispatch) => {
+  try {
+    dispatch({ type: 'updateProductStockRequest' });
 
-      const { data } = await axios.patch(
-        `${server}/product/seller-update-stock/${productId}`,
-        {
-          size,
-          quantity
-        },
-        {
-          withCredentials: true
-        }
-      );
+    const response = await axios.patch(
+      `${server}/product/seller-update-stock/${productId}`,
+      { size, quantity },
+      { withCredentials: true }
+    );
 
+    // Ensure that the response has the correct structure
+    if (response.data) {
       dispatch({
-        type: "updateProductStockSuccess",
-        payload: data.product
+        type: 'updateProductStockSuccess',
+        payload: response.data.product
       });
-    } catch (error) {
-      dispatch({
-        type: "updateProductStockFailed",
-        payload: error.response.data.message
-      });
+    } else {
+      throw new Error('Unexpected response structure');
     }
-  };
+  } catch (error) {
+    // Handle API error gracefully
+    dispatch({
+      type: 'updateProductStockFailed',
+      payload: error.response ? error.response.data.message : error.message
+    });
+  }
+};
 
 
+  // export const updateProductQuantity = (productId, size) => async (dispatch) => {
+  //   try {
+  //     // Assuming you have an API endpoint to update the quantity
+  //     const response = await axios.put(`/api/products/updateQuantity`, { productId, size });
+  
+  //     dispatch({
+  //       type: 'UPDATE_PRODUCT_QUANTITY_SUCCESS',
+  //       payload: response.data,
+  //     });
+  //   } catch (error) {
+  //     dispatch({
+  //       type: 'UPDATE_PRODUCT_QUANTITY_FAIL',
+  //       payload: error.response.data.message,
+  //     });
+  //   }
+  // };
   

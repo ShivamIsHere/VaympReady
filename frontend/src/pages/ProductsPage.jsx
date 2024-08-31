@@ -229,7 +229,7 @@ const ProductsPage = () => {
         <div>
           <Header activeHeading={2} />
           {/* FOR MOBILE VIEW */}
-          {categoriesParam === "Cloths" && (
+          {categoriesParam === "Clothes" && (
             <div className="flex mb-0 sticky top-28 z-10" style={{ zIndex: 1 }}>
               <div className="w-1/2">
                 <button
@@ -256,7 +256,7 @@ const ProductsPage = () => {
           )}
 
           {/* for larger screen */}
-          {categoriesParam === "Cloths" && (
+          {categoriesParam === "Clothes" && (
             <div className=" bg-gray-100 flex rounded-full sticky top-28 justify-between items-center"
               style={{ zIndex: 1 }}
             >
@@ -400,7 +400,7 @@ const ProductsPage = () => {
             </div>
 
             {/* Add filter options here */}
-            {categoriesParam === "Cloths" && <div className="mb-4">
+            {categoriesParam === "Clothes" && <div className="mb-4">
               <label className="cursor-pointer flex items-center justify-between border-t-1 border-b-2 border-gray-300 text-gray-700 p-3 rounded-lg mb-2 hover:border-gray-500 transition duration-300 ease-in-out" onClick={() => setSizeExpanded(!sizeExpanded)}>
                 Size
                 {!sizeExpanded ? (
@@ -481,7 +481,7 @@ const ProductsPage = () => {
               )}
             </div>}
             {/* Add other filter sections similarly */}
-            {categoriesParam === "Cloths" && <div className="mb-4">
+            {categoriesParam === "Clothes" && <div className="mb-4">
               <label
                 className="cursor-pointer flex items-center justify-between border-t-1 border-b-2 border-gray-300 text-gray-700 p-3 rounded-lg mb-2 hover:border-gray-500 transition duration-300 ease-in-out"
                 onClick={() => setSubCategoryExpanded(!subCategoryExpanded)}
@@ -607,7 +607,7 @@ const ProductsPage = () => {
             </div>
             {/* add more filter */}
             {/* Fabric filter section */}
-            {categoriesParam === "Cloths" && <div className="mb-4">
+            {categoriesParam === "Clothes" && <div className="mb-4">
               <label className="cursor-pointer flex items-center justify-between border-t-1 border-b-2 border-gray-300 text-gray-700 p-3 rounded-lg mb-2 hover:border-gray-500 transition duration-300 ease-in-out" onClick={() => setFabricExpanded(!fabricExpanded)}>
                 Fabric
                 {!fabricExpanded ? (
@@ -639,7 +639,7 @@ const ProductsPage = () => {
               )}
             </div>}
             {/* Occasion filter section */}
-            {categoriesParam === "Cloths" && <div className="mb-4">
+            {categoriesParam === "Clothes" && <div className="mb-4">
               <label className="cursor-pointer flex items-center justify-between border-t-1 border-b-2 border-gray-300 text-gray-700 p-3 rounded-lg mb-2 hover:border-gray-500 transition duration-300 ease-in-out" onClick={() => setOccasionExpanded(!occasionExpanded)}>Occasion
                 {!occasionExpanded ? (
                   <AiOutlineCaretDown className="h-8" />
@@ -700,7 +700,7 @@ const ProductsPage = () => {
               )}
             </div>}
             {/* Fit filter section */}
-            {categoriesParam === "Cloths" && <div className="mb-4">
+            {categoriesParam === "Clothes" && <div className="mb-4">
               <label className="cursor-pointer flex items-center justify-between border-t-1 border-b-2 border-gray-300 text-gray-700 p-3 rounded-lg mb-2 hover:border-gray-500 transition duration-300 ease-in-out" onClick={() => setFitExpanded(!fitExpanded)}>
                 Fit
                 {!fitExpanded ? (
@@ -764,7 +764,7 @@ const ProductsPage = () => {
               )}
             </div>
             {/* Sleeve Type filter section */}
-            {categoriesParam === "Cloths" && <div className="mb-4">
+            {categoriesParam === "Clothes" && <div className="mb-4">
               <label className="cursor-pointer flex items-center justify-between border-t-1 border-b-2 border-gray-300 text-gray-700 p-3 rounded-lg mb-2 hover:border-gray-500 transition duration-300 ease-in-out" onClick={() => setSleeveTypeExpanded(!sleeveTypeExpanded)}>Sleeve Type
                 {!sleeveTypeExpanded ? (
                   <AiOutlineCaretDown className="h-8" />
@@ -795,7 +795,7 @@ const ProductsPage = () => {
               )}
             </div>}
             {/* Neck Type filter section */}
-            {categoriesParam === "Cloths" && <div className="mb-4">
+            {categoriesParam === "Clothes" && <div className="mb-4">
               <label className="cursor-pointer flex items-center justify-between border-t-1 border-b-2 border-gray-300 text-gray-700 p-3 rounded-lg mb-2 hover:border-gray-500 transition duration-300 ease-in-out" onClick={() => setNeckTypeExpanded(!neckTypeExpanded)}>Neck Type
                 {!neckTypeExpanded ? (
                   <AiOutlineCaretDown className="h-8" />

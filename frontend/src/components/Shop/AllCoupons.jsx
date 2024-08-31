@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const AllCoupons = () => {
+  const { user } = useSelector((state) => state.user);
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -20,25 +21,25 @@ const AllCoupons = () => {
   const [minAmount, setMinAmout] = useState(null);
   const [maxAmount, setMaxAmount] = useState(null);
   const [selectedProducts, setSelectedProducts] = useState("Choose your selected products"); // Initialize with a default value
-  const [value, setValue] = useState(null);
+  const [percentage, setpercentage] = useState(null);
   const { seller } = useSelector((state) => state.seller);
-  const { products } = useSelector((state) => state.products);
-  console.log("all productus",products)
+  const { allProducts } = useSelector((state) => state.products);
+  console.log("all productus",user._id)
   const {id}=useParams()
   console.log("param id",id)
   console.log("seller.id",seller)
   let sellerId=id;
-  if(id==undefined){
-  sellerId=seller._id
-  }
+  // if(id==undefined){
+  // sellerId=seller._id
+  // }
   const dispatch = useDispatch();
 
   useEffect(() => {
     setIsLoading(true);
     let p=`${server}/coupon/get-coupon-admin/${sellerId}`
-    if(id==undefined){
-      p=`${server}/coupon/get-coupon/${sellerId}`
-    }
+    // if(id==undefined){
+    //   p=`${server}/coupon/get-coupon/${sellerId}`
+    // }
     axios
     .get(p, {
       withCredentials: true,
@@ -76,8 +77,9 @@ const AllCoupons = () => {
           minAmount,
           maxAmount,
           selectedProducts,
-          value,
+          percentage,
           shopId: sellerId,
+          adminCreated:user._id
         },
         { withCredentials: true }
       )
@@ -101,11 +103,17 @@ const AllCoupons = () => {
       field: "name",
       headerName: "Coupon Code",
       minWidth: 180,
-      flex: 1.4,
+      flex: 0.6,
     },
     {
-      field: "price",
-      headerName: "Value",
+      field: "percentage",
+      headerName: "Discount %",
+      minWidth: 100,
+      flex: 0.6,
+    },
+    {
+      field: "totalUsed",
+      headerName: "totalUsed",
       minWidth: 100,
       flex: 0.6,
     },
@@ -135,8 +143,8 @@ const AllCoupons = () => {
       row.push({
         id: item._id,
         name: item.name,
-        price: item.value + " %",
-        sold: 10,
+        percentage: item.percentage + " %",
+        totalUsed: item.totalUsed,
       });
     });
 
@@ -200,10 +208,10 @@ const AllCoupons = () => {
                     <input
                       type="text"
                       name="value"
-                      value={value}
+                      value={percentage}
                       required
                       className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                      onChange={(e) => setValue(e.target.value)}
+                      onChange={(e) => setpercentage(e.target.value)}
                       placeholder="Enter your coupon code value..."
                     />
                   </div>
@@ -242,8 +250,8 @@ const AllCoupons = () => {
                       <option value="Choose your selected products">
                         Choose a selected product
                       </option>
-                      {products &&
-                        products.map((i) => (
+                      {allProducts &&
+                        allProducts.map((i) => (
                           <option value={i.name} key={i.name}>
                             {i.name}
                           </option>

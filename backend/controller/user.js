@@ -9,7 +9,29 @@ const sendMail = require("../utils/sendMail");
 const sendToken = require("../utils/jwtToken");
 const crypto = require("crypto");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
+const passport = require('passport');
+require('../config/passport')(passport); // Ensure this path is correct
 
+
+
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+
+// @desc Google auth callback
+// @route GET /auth/google/callback
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  (req, res) => {
+    res.redirect("/"); // Redirect to your desired route after successful login
+  }
+);
+
+// @desc Logout user
+// @route /auth/logout
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
 // create user
 router.post("/create-user", async (req, res, next) => {
   try {

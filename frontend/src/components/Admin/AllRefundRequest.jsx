@@ -129,7 +129,7 @@ console.log("item",item)
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/user/order/${params.row?.orderId}`}>
+            <Link to={`/user/AdminOrder/${params.row?.orderId}`}>
               <Button>
                 <AiOutlineArrowRight size={20} />
               </Button>

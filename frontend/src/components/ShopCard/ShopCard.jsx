@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 const ShopCard = ({ shopName, image, shopId }) => {
   return (
     <Link to={`/shop/preview/${shopId}`}>
-      <div className="max-w-sm mx-auto overflow-hidden shadow-lg rounded-lg transform transition duration-300 hover:scale-105 hover:shadow-2xl bg-blue-50">
+      <div className="max-w-sm mx-auto overflow-hidden shadow-lg rounded-lg transform transition duration-300 hover:shadow-2xl bg-blue-50">
         <img
-          className="w-full h-56 object-contain object-center transition-transform duration-300 ease-in-out hover:scale-110"
+          className="w-full h-56 object-cover object-center transition-transform duration-300 ease-in-out"
           src={image}
           alt={shopName}
         />

@@ -7,14 +7,14 @@ const DropDown = ({ categoriesData, setDropDown }) => {
   const dropdownRef = useRef(null);
   const submitHandle = (i) => {
     console.log("i.title",i.title)
-    if(i.title==="Cloths"){
-    navigate(`/search/cloths?page=1`);
-  }else if(i.title==="Shoes"){
-    navigate(`/search/shoes?page=1`);
+    if(i.title==="Clothes"){
+    navigate(`/search/clothes?page=1`);
+  }else if(i.title==="Footwear"){
+    navigate(`/search/footwear?page=1`);
   }else if(i.title==="Accessories"){
     navigate(`/coming-soon`);
 
-  }    
+  }   
   setDropDown(false);
     window.location.reload();
   };

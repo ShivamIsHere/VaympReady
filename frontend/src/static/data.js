@@ -207,25 +207,26 @@ export const navItems = [
     //   image_Url:
     //     "https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/2021-07/kosme1.png",
     // },
+    
+    {
+      id: 1,
+      title: "Clothes",
+      subTitle: "",
+      image_Url:
+        "/cloths.jpeg",
+    },
+    {
+      id: 2,
+      title: "Footwear",
+      subTitle: "",
+      image_Url:
+        "/shoes.jpeg",
+    },
     {
       id: 3,
       title: "Accessories",
       subTitle: "",
       image_Url: "/accessories.jpeg",
-    },
-    {
-      id: 4,
-      title: "Cloths",
-      subTitle: "",
-      image_Url:
-        "cloths.jpeg",
-    },
-    {
-      id: 5,
-      title: "Shoes",
-      subTitle: "",
-      image_Url:
-        "shoes.jpeg",
     },
     // {
     //   id: 6,
@@ -264,7 +265,7 @@ export const navItems = [
   ];
 
   export const subCategory = [
-    { id: 1, title: "Tshirt" },
+    { id: 1, title: "T-shirts" },
     { id: 2, title: "Shirts" },
     { id: 3, title: "Jeans" },
     { id: 4, title: "tops" },
@@ -303,7 +304,12 @@ export const navItems = [
     { id: 37, title: "Suits" },
     { id: 38, title: "Tuxedos" },
     { id: 39, title: "Tank tops" },
-    { id: 40, title: "Blouses" }
+    { id: 40, title: "Blouses" },
+    { id: 41, title: "Undergarments" },
+    { id: 42, title: "Kurtis" },
+    { id: 37, title: "Salwar Suits" },
+
+
   ];
   
   export const sleeveType = [
@@ -708,7 +714,27 @@ export const navItems = [
     }
   ];
 
-  
+  export const pattern= [
+    { "id": 1, "type": "Animal Print" },
+    { "id": 2, "type": "Checkered" },
+    { "id": 3, "type": "Color Block" },
+    { "id": 4, "type": "Dyed/Ombre" },
+    { "id": 5, "type": "Embellished" },
+    { "id": 6, "type": "Embroidered" },
+    { "id": 7, "type": "Ethnic Motifs" },
+    { "id": 8, "type": "Floral Print" },
+    { "id": 9, "type": "Geometric Print" },
+    { "id": 10, "type": "Graphic Print" },
+    { "id": 11, "type": "Military Camouflage" },
+    { "id": 12, "type": "Polka Print" },
+    { "id": 13, "type": "Printed" },
+    { "id": 14, "type": "Self Design" },
+    { "id": 15, "type": "Solid" },
+    { "id": 16, "type": "Striped" },
+    { "id": 17, "type": "Washed" },
+    { "id": 18, "type": "Woven Design" }
+];
+
   
   export const footwearSubCategories = [
     {
@@ -805,7 +831,11 @@ export const navItems = [
     },
     {
       id: 24,
-      title: "juti"
+      title: "Juti"
+    },
+    {
+      id: 24,
+      title: "Shoes"
     }
   ];
   
@@ -956,7 +986,33 @@ export const navItems = [
     {
       id: 14,
       type: "8XL"
-    }
+    },
+  { id: 15, type: "34" },
+  { id: 16, type: "36" },
+  { id: 17, type: "38" },
+  { id: 18, type: "40" },
+  { id: 19, type: "42" },
+  { id: 20, type: "44" },
+  { id: 21, type: "46" },
+  { id: 22, type: "48" },
+  { id: 23, type: "50" },
+  { id: 24, type: "52" },
+  { id: 25, type: "54" },
+  { id: 26, type: "56" },
+  { id: 27, type: "58" },
+  { id: 28, type: "60" },
+  { id: 29, type: "65" },
+  { id: 30, type: "70" },
+  { id: 31, type: "75" },
+  { id: 32, type: "80" },
+  { id: 33, type: "85" },
+  { id: 34, type: "90" },
+  { id: 35, type: "95" },
+  { id: 36, type: "100" },
+  { id: 37, type: "105" },
+  { id: 38, type: "110" },
+  { id: 39, type: "115" },
+  { id: 40, type: "120" },
   ];
   
   
@@ -1071,6 +1127,239 @@ export const navItems = [
     }
   ];
   
+  export const braSizes = [
+    { id: 1, type: "3XS" },
+    { id: 2, type: "XS" },
+    { id: 3, type: "S" },
+    { id: 4, type: "M" },
+    { id: 5, type: "L" },
+    { id: 6, type: "XL" },
+    { id: 7, type: "3XL" },
+    { id: 8, type: "4XL" },
+    { id: 9, type: "5XL" },
+    { id: 10, type: "6XL" },
+    { id: 11, type: "28" },
+    { id: 12, type: "30" },
+    { id: 13, type: "32" },
+    { id: 14, type: "34" },
+    { id: 15, type: "36" },
+    { id: 16, type: "38" },
+    { id: 17, type: "40" },
+    { id: 18, type: "42" },
+    { id: 19, type: "44" },
+    { id: 20, type: "46" },
+    { id: 21, type: "Free" },
+    { id: 22, type: "32B" },
+    { id: 23, type: "34B" },
+    { id: 24, type: "36B" },
+    { id: 25, type: "38B" },
+    { id: 26, type: "30B" },
+    { id: 27, type: "40B" },
+    { id: 28, type: "34C" },
+    { id: 29, type: "32C" },
+    { id: 30, type: "36C" },
+    { id: 31, type: "38C" },
+    { id: 32, type: "40C" },
+    { id: 33, type: "32A" },
+    { id: 34, type: "30A" },
+    { id: 35, type: "34A" },
+    { id: 36, type: "28A" },
+    { id: 37, type: "28B" },
+    { id: 38, type: "32D" },
+    { id: 39, type: "36D" },
+    { id: 40, type: "34D" },
+    { id: 41, type: "30C" },
+    { id: 42, type: "42C" },
+    { id: 43, type: "38D" },
+    { id: 44, type: "44C" },
+    { id: 45, type: "42B" },
+    { id: 46, type: "40D" },
+    { id: 47, type: "44B" },
+    { id: 48, type: "36A" },
+    { id: 49, type: "42D" },
+    { id: 50, type: "44D" },
+    { id: 51, type: "30D" },
+    { id: 52, type: "38A" },
+    { id: 53, type: "XXL" },
+    { id: 54, type: "40A" },
+    { id: 55, type: "28C" },
+    { id: 56, type: "34E" },
+    { id: 57, type: "36E" },
+    { id: 58, type: "32E" },
+    { id: 59, type: "XXS" },
+    { id: 60, type: "38E" },
+    { id: 61, type: "40E" },
+    { id: 62, type: "34DD" },
+    { id: 63, type: "46C" },
+    { id: 64, type: "32DD" },
+    { id: 65, type: "42E" },
+    { id: 66, type: "28D" },
+    { id: 67, type: "36F" },
+    { id: 68, type: "38DD" },
+    { id: 69, type: "46B" },
+    { id: 70, type: "40F" },
+    { id: 71, type: "36DD" },
+    { id: 72, type: "34F" },
+    { id: 73, type: "32F" },
+    { id: 74, type: "44E" },
+    { id: 75, type: "42A" },
+    { id: 76, type: "38F" },
+    { id: 77, type: "48C" },
+    { id: 78, type: "46D" },
+    { id: 79, type: "44A" },
+    { id: 80, type: "40DD" },
+    { id: 81, type: "48D" },
+    { id: 82, type: "50C" },
+    { id: 83, type: "50B" },
+    { id: 84, type: "42F" },
+    { id: 85, type: "42DD" },
+    { id: 86, type: "44F" },
+    { id: 87, type: "44DD" },
+    { id: 88, type: "38G" },
+    { id: 89, type: "40G" },
+    { id: 90, type: "30DD" },
+    { id: 91, type: "46E" },
+    { id: 92, type: "36G" },
+    { id: 93, type: "34G" },
+    { id: 94, type: "40H" },
+    { id: 95, type: "32H" },
+    { id: 96, type: "30E" },
+    { id: 97, type: "32G" },
+    { id: 98, type: "46F" },
+    { id: 99, type: "34H" },
+    { id: 100, type: "50D" },
+    { id: 101, type: "34Z" },
+    { id: 102, type: "36H" },
+    { id: 103, type: "30Z" },
+    { id: 104, type: "52C" },
+    { id: 105, type: "52B" },
+    { id: 106, type: "40I" },
+    { id: 107, type: "38I" },
+    { id: 108, type: "36I" },
+    { id: 109, type: "42G" },
+    { id: 110, type: "38Z" },
+    { id: 111, type: "38H" },
+    { id: 112, type: "36Z" },
+    { id: 113, type: "34I" },
+    { id: 114, type: "32Z" },
+    { id: 115, type: "32I" },
+    { id: 116, type: "30G" },
+    { id: 117, type: "44H" },
+    { id: 118, type: "42Z" },
+    { id: 119, type: "14D" },
+    { id: 120, type: "14C" },
+    { id: 121, type: "8E" },
+    { id: 122, type: "46H" },
+    { id: 123, type: "40Z" },
+    { id: 124, type: "28E" },
+    { id: 125, type: "14B" },
+    { id: 126, type: "46I" },
+    { id: 127, type: "46G" },
+    { id: 128, type: "40FF" },
+    { id: 129, type: "38FF" },
+    { id: 130, type: "30F" },
+    { id: 131, type: "14E" },
+    { id: 132, type: "14A" },
+    { id: 133, type: "8D" },
+    { id: 134, type: "50E" },
+    { id: 135, type: "48E" },
+    { id: 136, type: "44Z" },
+    { id: 137, type: "44I" },
+    { id: 138, type: "42I" },
+    { id: 139, type: "42H" },
+    { id: 140, type: "28DD" },
+    { id: 141, type: "18B" },
+    { id: 142, type: "16E" },
+    { id: 143, type: "16C" },
+    { id: 144, type: "12C" },
+    { id: 145, type: "12B" },
+    { id: 146, type: "10E" },
+    { id: 147, type: "10D" },
+    { id: 148, type: "10A" }
+  ];
+  
+  export const jeansSizes = [
+    {
+      id: 1,
+      type: "22"
+    },
+    {
+      id: 2,
+      type: "24"
+    },
+    {
+      id: 3,
+      type: "26"
+    },
+    {
+      id: 4,
+      type: "28"
+    },
+    {
+      id: 5,
+      type: "30"
+    },
+    {
+      id: 6,
+      type: "32"
+    },
+    {
+      id: 7,
+      type: "34"
+    },
+    {
+      id: 8,
+      type: "36"
+    },
+    {
+      id: 9,
+      type: "38"
+    },
+    {
+      id: 10,
+      type: "40"
+    },
+    {
+      id: 11,
+      type: "42"
+    },
+    {
+      id: 12,
+      type: "44"
+    },
+    {
+      id: 13,
+      type: "46"
+    },
+    {
+      id: 14,
+      type: "48"
+    },
+    {
+      id: 15,
+      type: "50"
+    },
+    {
+      id: 16,
+      type: "52"
+    },
+    {
+      id: 17,
+      type: "54"
+    },
+    {
+      id: 18,
+      type: "56"
+    },
+    {
+      id: 19,
+      type: "58"
+    },
+    {
+      id: 20,
+      type: "60"
+    },
+  ];
   
   export const listing = 
   [
@@ -1475,6 +1764,41 @@ export const eventType =
     },
     {
       name: "Profile",
+    },
+  ];
+
+  export const SearchRecommendation = [
+    {
+      id:1,
+      type: "Half Shirt For Men",
+    },
+    {
+      id:2,
+      type: "Half Shirt For Women",
+    },
+    {
+      id:3,
+      type: "Full Shirt For Men",
+    },
+    {
+      id:4,
+      type: "Full Shirt For Women",
+    },
+    {
+      id:5,
+      type: "Half T-shirt For Men",
+    },
+    {
+      id:6,
+      type: "Half T-shirt For Women",
+    },
+    {
+      id:7,
+      type: "Full T-shirt For Men",
+    },
+    {
+      id:8,
+      type: "Full T-shirt For Women",
     },
   ];
   

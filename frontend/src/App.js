@@ -21,6 +21,7 @@ import {
   SellerActivationPage,
   ShopLoginPage,
   OrderDetailsPage,
+  AdminOrderDetailsPage,
   TrackOrderPage,
   UserInbox,
   AllOrders,
@@ -58,6 +59,7 @@ import {
   AdminDashboardProducts,
   AdminDashboardEvents,
   AdminDashboardWithdraw,
+  AdminDashboardCoupon,
   AdminDashboardAllOrders,
   AdminDashboardRefund,
   AdminDashboardAllReturn,
@@ -88,6 +90,7 @@ import ScrollRestoration from "./components/Layout/ScrollRestoration.jsx";
 import Wishlist from "./components/Wishlist/Wishlist.jsx";
 import Categories from "./components/Route/Categories/Categories.jsx";
 import ComingSoon from "./components/Layout/ComingSoon.jsx";
+import QRCodeScanner from "./components/Shop/QRCodeScanner.jsx";
 // import AllOrders from "./pages/AllOrders.jsx";
 
 const App = () => {
@@ -123,7 +126,7 @@ const App = () => {
         </Elements>
       )}
       <Routes>
-
+      <Route path="/qr-scanner" element={<QRCodeScanner />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -179,9 +182,9 @@ const App = () => {
         <Route
           path="/categories"
           element={
-            <ProtectedRoute>
+            // <ProtectedRoute>
               <Categories />
-            </ProtectedRoute>
+            // </ProtectedRoute>
           }
         />
         <Route
@@ -237,6 +240,14 @@ const App = () => {
           element={
             <ProtectedRoute>
               <OrderDetailsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user/AdminOrder/:id"
+          element={
+            <ProtectedRoute>
+              <AdminOrderDetailsPage />
             </ProtectedRoute>
           }
         />
@@ -485,6 +496,14 @@ const App = () => {
           element={
             <ProtectedAdminRoute>
               <AdminDashboardWithdraw />
+            </ProtectedAdminRoute>
+          }
+        />
+        <Route
+          path="/admin-all-coupon"
+          element={
+            <ProtectedAdminRoute>
+              <AdminDashboardCoupon />
             </ProtectedAdminRoute>
           }
         />

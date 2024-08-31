@@ -11,6 +11,7 @@ import EventsPage from "../pages/EventsPage";
 import FAQPage from "../pages/FAQPage";
 import ShopsPage from "../pages/Shop/ShopsPage.jsx";
 import AllCoupons from "../components/Shop/AllCoupons.jsx";
+import ShopAllCoupons from "../components/Shop/ShopAllCoupons.jsx";
 import CheckoutPage from "../pages/CheckoutPage";
 import PaymentPage from "../pages/PaymentPage";
 import OrderSuccessPage from "../pages/OrderSuccessPage";
@@ -20,6 +21,7 @@ import ShopCreatePage from "../pages/ShopCreate";
 import SellerActivationPage from "../pages/SellerActivationPage";
 import ShopLoginPage from "../pages/ShopLoginPage";
 import OrderDetailsPage from "../pages/OrderDetailsPage";
+import AdminOrderDetailsPage from "../pages/AdminOrderDetailsPage";
 import TrackOrderPage from "../pages/TrackOrderPage";
 import UserInbox from "../pages/UserInbox.jsx";
 import AllOrders from "../pages/AllOrders.jsx";
@@ -33,6 +35,7 @@ import SuccessfulRefunds from "../components/Shop/SuccessfulRefunds.jsx";
 import ProcessingRefunds from "../components/Shop/ProcessingRefunds.jsx";
 import Wishlist from "../components/Wishlist/Wishlist.jsx";
 import Categories from "../components/Route/Categories/Categories.jsx";
+import QRCodeScanner from "../components/Shop/QRCodeScanner.jsx";
 export { 
     LoginPage,
     ForgotPassword,
@@ -44,6 +47,7 @@ export {
     SuccessfulRefunds,
     ProcessingRefunds,
     // BestSellingPage,
+    QRCodeScanner,
     ComingSoon,
     EventsPage,
     FAQPage,
@@ -58,12 +62,14 @@ export {
     ShopCreatePage,
     SellerActivationPage,
     ShopLoginPage,
+    AdminOrderDetailsPage,
     OrderDetailsPage,
     TrackOrderPage,
     ShopsPage,
     UserInbox,
     AllOrders,
     AllCoupons,
+    ShopAllCoupons,
     ShopForgotPassword,
     ShopResetPassword,
     Cart,

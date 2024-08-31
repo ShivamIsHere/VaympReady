@@ -38,19 +38,22 @@ router.get(
   "/get-coupon/:id",
   isSeller,
   catchAsyncErrors(async (req, res, next) => {
-    console.log("nm",req.params.id)
-    console.log("is seller",isSeller)
     try {
+      console.log("Request Params:", req.params); // Log params to ensure ID is present
       const couponCodes = await CoupounCode.find({ shopId: req.params.id });
+      console.log("Coupons found:", couponCodes); // Log the found coupons
+
       res.status(201).json({
         success: true,
         couponCodes,
       });
     } catch (error) {
-      return next(new ErrorHandler(error, 400));
+      console.error("Error fetching coupon codes:", error.message); // Log the error
+      return next(new ErrorHandler("Failed to fetch coupon codes", 400));
     }
   })
 );
+
 router.get(
   "/get-coupon-admin/:id",
   isAuthenticated,
@@ -69,6 +72,23 @@ router.get(
     }
   })
 );
+router.get(
+  "/get-all-coupon-admin",
+  isAuthenticated,
+  isAdmin("Admin"),
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const couponCodes = await CoupounCode.find().sort({ createdAt: -1 });
+      res.status(201).json({
+        success: true,
+        couponCodes,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
+
 
 // delete coupoun code of a shop
 router.delete(

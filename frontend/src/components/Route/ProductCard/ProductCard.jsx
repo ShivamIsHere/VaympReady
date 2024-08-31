@@ -70,7 +70,7 @@ const ProductCard = ({ data, isEvent }) => {
 
   return (
     <div >
-      <div className="w-full h-[310px] bg-white rounded-lg shadow-sm p-3 relative cursor-pointer"
+      <div className="w-full h-[360px] bg-white rounded-lg shadow-sm p-3 relative cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       >
@@ -98,7 +98,7 @@ const ProductCard = ({ data, isEvent }) => {
                 <img
                   src={image.url}
                   alt=""
-                  className="w-full h-[170px] object-contain"
+                  className="w-full h-[240px] object-contain"
                 />
               </div>
             ))}
@@ -107,7 +107,7 @@ const ProductCard = ({ data, isEvent }) => {
           <img
             src={`${data.images && data.images[0]?.url}`}
             alt=""
-            className="w-full h-[170px] object-contain"
+            className="w-full h-[240px] object-contain"
           />
         )}
         </a>

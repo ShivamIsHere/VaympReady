@@ -1,6 +1,8 @@
 const app = require("./app");
 const connectDatabase = require("./db/Database");
 const cloudinary = require("cloudinary");
+// Ensure dotenv is loaded at the very top of your entry file (e.g., app.js or server.js)
+require('dotenv').config({ path: './config/.env' });
 
 // Handling uncaught Exception
 process.on("uncaughtException", (err) => {

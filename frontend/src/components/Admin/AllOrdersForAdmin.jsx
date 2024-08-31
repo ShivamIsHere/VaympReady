@@ -33,7 +33,7 @@ const AllOrdersForAdmin = () => {
         console.log(error.response);
       });
   }, []);
-
+console.log("kkkkkk",data)
 
   const columns = [
     { field: "kuchviId", headerName: "Order ID", minWidth: 250, flex: 0.7 },
@@ -80,7 +80,7 @@ const AllOrdersForAdmin = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/user/order/${params.row?.orderId}`}>
+            <Link to={`/user/AdminOrder/${params.row?.kuchviId}`}>
               <Button>
                 <AiOutlineArrowRight size={20} />
               </Button>
@@ -143,62 +143,62 @@ const AllOrdersForAdmin = () => {
       </Button>
       ),
     },
-       {
-        field: "delete4",
-        headerName: "Delete4",
-        minWidth: 100,
-        flex: 0.7,
-        renderCell: (params) => (
+    //    {
+    //     field: "delete4",
+    //     headerName: "Delete4",
+    //     minWidth: 100,
+    //     flex: 0.7,
+    //     renderCell: (params) => (
           
-            <Button
-              variant="contained"
-              color="error"
-              disabled={params.row.status== "Cancelled"?true:params.row.cancel}
-              // disabled={params.row.cancel}
-              onClick={async () => {
-                console.log("================???????", params.row);
-                // const id=params.row._id;
-                const orderId = params.row.orderid;
-                const productId = params.row.productid;
-                const size = params.row.size;
-                const qty = 1;
-                const userId = params.row.userId;
-                const status = params.row.status;
-                const shopId = params.row.shopId;
-                const shopPrice = params.row.shopPrice;
-                const markedPrice = params.row.markedPrice;
-                const discountPrice = params.row.discountPrice;
-                const user=params.row.user;
-                const paymentInfo=params.row.paymentInfo;
-                const shippingAddress = params.row.address;
-                const refundStatus = params.row.refundStatus;
-                const cancel = params.row.cancel;
-                const delivered = params.row.delivered;
-                const img = params.row.image;
-                const productName=params.row.productName;
-                const product=params.row.product;
+    //         <Button
+    //           variant="contained"
+    //           color="error"
+    //           disabled={params.row.status== "Cancelled"?true:params.row.cancel}
+    //           // disabled={params.row.cancel}
+    //           onClick={async () => {
+    //             console.log("================???????", params.row);
+    //             // const id=params.row._id;
+    //             const orderId = params.row.orderid;
+    //             const productId = params.row.productid;
+    //             const size = params.row.size;
+    //             const qty = 1;
+    //             const userId = params.row.userId;
+    //             const status = params.row.status;
+    //             const shopId = params.row.shopId;
+    //             const shopPrice = params.row.shopPrice;
+    //             const markedPrice = params.row.markedPrice;
+    //             const discountPrice = params.row.discountPrice;
+    //             const user=params.row.user;
+    //             const paymentInfo=params.row.paymentInfo;
+    //             const shippingAddress = params.row.address;
+    //             const refundStatus = params.row.refundStatus;
+    //             const cancel = params.row.cancel;
+    //             const delivered = params.row.delivered;
+    //             const img = params.row.image;
+    //             const productName=params.row.productName;
+    //             const product=params.row.product;
 
-                const kuchviId=params.row.kuchviId
-                const response=await axios.patch(`http://localhost:8000/api/v2/kuchvi/update-kuchvi/${params.row.kuchviId}`, {
-                  cancel:true, // Update the stock value in the request body
-                  status:"cancel Request"
-                  });
+    //             const kuchviId=params.row.kuchviId
+    //             const response=await axios.patch(`http://localhost:8000/api/v2/kuchvi/update-kuchvi/${params.row.kuchviId}`, {
+    //               cancel:true, // Update the stock value in the request body
+    //               status:"cancel Request"
+    //               });
           
-                  if (response.status >= 200 && response.status < 300) {
-                     console.log("Stock updated successfully");
-                  } else {
-                    throw new Error(`Failed to update stock - Unexpected status code: ${response.status}`);
-                  }
-                  window.location.reload();
+    //               if (response.status >= 200 && response.status < 300) {
+    //                  console.log("Stock updated successfully");
+    //               } else {
+    //                 throw new Error(`Failed to update stock - Unexpected status code: ${response.status}`);
+    //               }
+    //               window.location.reload();
                 
-              }}
-            >
-              Cancel11
-            </Button>
-          )
+    //           }}
+    //         >
+    //           Cancel11
+    //         </Button>
+    //       )
     
     
-    },
+    // },
   ]
 
   const handleSubmit = async () => {

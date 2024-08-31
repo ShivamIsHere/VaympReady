@@ -59,13 +59,19 @@ const Shop = require("../model/shop");
 const Product = require("../model/product");
 const Kuchvi = require("../model/kuchvi");
 const axios = require("axios");
+const CoupounCode = require("../model/coupounCode");
+
 // Create new order
 router.post(
   "/create-order",
   catchAsyncErrors(async (req, res, next) => {
     try {
-      const { cart, shippingAddress, user, totalPrice, paymentInfo } = req.body;
-
+      const { cart, shippingAddress, user, totalPrice, paymentInfo,shopId,
+        couponId,
+        discount, } = req.body;
+console.log("111111111",shopId)
+console.log("222222222",couponId)
+console.log("333333333",discount)
       // Check stock for each item in the cart
       for (const item of cart) {
         const product = await Product.findById(item._id);
@@ -135,7 +141,7 @@ router.post(
                   productName: item.name,
                   product: item,
                   markedPrice: item.originalPrice,
-                  discountPrice: item.discountPrice,
+                  discountPrice: totalPrice,
                   shippingAddress: shippingAddress,
                   refundStatus: false,
                   delivered: false,
@@ -163,7 +169,7 @@ router.post(
       for (const item of cart) {
         await updateStockAfterOrderCreation(item);
       }
-
+      await updateBalance(shopId, couponId, discount);
       res.status(201).json({
         success: true,
         orders,
@@ -220,7 +226,31 @@ async function updateStockAfterOrderCreation(item) {
     throw new Error("Out of Stock");
   }
 }
+async function updateBalance(shopId, couponId, discount) {
+  try {
+    const seller = await Shop.findById(shopId);
+    const coupon = await CoupounCode.findById(couponId);
 
+    if (!seller) {
+      throw new Error(`Seller not found with ID: ${shopId}`);
+    }
+
+    if (!coupon) {
+      throw new Error(`Coupon not found with ID: ${couponId}`);
+    }
+
+    seller.availableBalance += discount;
+    coupon.totalUsed += 1;
+
+    await seller.save();
+    await coupon.save();
+
+    console.log("Seller's balance and coupon usage updated successfully");
+  } catch (error) {
+    console.error("Error updating seller and coupon:", error.message);
+    throw new Error("Failed to update balance and coupon usage");
+  }
+}
 
 // Function to update stock after order creation
 async function updateStockCancel(item, size) {

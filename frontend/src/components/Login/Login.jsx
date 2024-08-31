@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { GoogleLogin } from "@react-oauth/google";
 import styles from "../../styles/styles";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -29,9 +30,9 @@ const Login = () => {
         },
         { withCredentials: true }
       );
-      toast.success("Login Success!",{
-        autoClose:1000, // Duration in milliseconds
-        });
+      toast.success("Login Success!", {
+        autoClose: 1000,
+      });
       navigate("/");
       window.location.reload(true);
     } catch (err) {
@@ -39,6 +40,27 @@ const Login = () => {
         message: err.response.data.message,
         field: err.response.data.field,
       });
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLoginSuccess = async (response) => {
+    setLoading(true);
+    try {
+      const res = await axios.post(
+        `${server}/user/login-user`,
+        {
+          token: response.credential,
+        },
+        { withCredentials: true }
+      );
+      toast.success("Login with Google Success!", {
+        autoClose: 1000,
+      });
+      navigate("/");
+      window.location.reload(true);
+    } catch (err) {
+      toast.error("Google Login Failed!");
       setLoading(false);
     }
   };
@@ -79,11 +101,15 @@ const Login = () => {
                   onChange={handleInputChange(setEmail)}
                   onBlur={handleEmailBlur}
                   className={`appearance-none block w-full px-3 py-2 border ${
-                    error.field === "email" ? "border-red-500" : "border-gray-300"
+                    error.field === "email"
+                      ? "border-red-500"
+                      : "border-gray-300"
                   } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm`}
                 />
                 {error.message === "User doesn't exists!" && (
-                  <div className="text-red-600 text-sm mt-1">{error.message}</div>
+                  <div className="text-red-600 text-sm mt-1">
+                    {error.message}
+                  </div>
                 )}
               </div>
             </div>
@@ -103,11 +129,16 @@ const Login = () => {
                   value={password}
                   onChange={handleInputChange(setPassword)}
                   className={`appearance-none block w-full px-3 py-2 border ${
-                    error.field === "password" ? "border-red-500" : "border-gray-300"
+                    error.field === "password"
+                      ? "border-red-500"
+                      : "border-gray-300"
                   } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm`}
                 />
-                {error.message === "Please provide the correct password!" && (
-                  <div className="text-red-600 text-sm mt-1">{error.message}</div>
+                {error.message ===
+                  "Please provide the correct password!" && (
+                  <div className="text-red-600 text-sm mt-1">
+                    {error.message}
+                  </div>
                 )}
                 {visible ? (
                   <AiOutlineEye
@@ -148,15 +179,10 @@ const Login = () => {
                 </a>
               </div>
             </div>
-             {/* {error.message && ( 
-              <div className="text-red-600 text-sm">{error.message}</div>
-            )} */}
-            {/* {error.message === "Check your Internet Connection" && ( // Conditionally render the error message
-              <div className="text-red-600 text-sm">{error.message}</div>
-            )} */}
-              {(error.message !=="User doesn't exists!") && (error.message !=="Please provide the correct password!")  && ( 
-              <div className="text-red-600 text-sm">{error.message}</div>
-            )}
+            {(error.message !== "User doesn't exists!") &&
+              (error.message !== "Please provide the correct password!") && (
+                <div className="text-red-600 text-sm">{error.message}</div>
+              )}
             <div>
               {loading ? (
                 <div
@@ -183,6 +209,14 @@ const Login = () => {
                   Submit
                 </button>
               )}
+            </div>
+            <div className="relative w-full flex justify-center py-2">
+              <GoogleLogin
+                onSuccess={handleGoogleLoginSuccess}
+                onError={() => {
+                  toast.error("Google Login Failed!");
+                }}
+              />
             </div>
             <div className={`${styles.noramlFlex} w-full`}>
               <h4>Not have any account?</h4>

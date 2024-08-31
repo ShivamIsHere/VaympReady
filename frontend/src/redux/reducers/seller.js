@@ -86,3 +86,15 @@ export const sellerReducer = createReducer(initialState, {
     state.error = action.payload;
   },
 });
+// const notificationReducer = (state = { isLoading: false, newStockNotification: false, error: null }, action) => {
+//   switch (action.type) {
+//     case "updateNewStockNotificationRequest":
+//       return { ...state, isLoading: true };
+//     case "updateNewStockNotificationSuccess":
+//       return { ...state, isLoading: false, newStockNotification: action.payload.newStock };
+//     case "updateNewStockNotificationFailed":
+//       return { ...state, isLoading: false, error: action.payload };
+//     default:
+//       return state;
+//   }
+// };

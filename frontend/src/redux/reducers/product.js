@@ -8,7 +8,10 @@ const initialState = {
   isLoading: false,
   error: null,
   totalPages: 0,
-  currentPage: 1
+  totalPage: 0,
+  currentPage: 1,
+  products: [],
+  product: [],
 };
 
 export const productReducer = createReducer(initialState, {
@@ -31,7 +34,12 @@ export const productReducer = createReducer(initialState, {
   },
   getAllProductsShopSuccess: (state, action) => {
     state.isLoading = false;
-    state.products = action.payload;
+    state.products = action.payload.products;
+    state.product = action.payload.product;
+    state.currentPage= action.payload.currentPage;
+    state.totalPages= action.payload.totalPages;
+    state.totalPage = action.payload.totalPage;
+
   },
   getAllProductsShopFailed: (state, action) => {
     state.isLoading = false;
@@ -70,22 +78,7 @@ export const productReducer = createReducer(initialState, {
   clearErrors: (state) => {
     state.error = null;
   },
-  
-  // getAllProductsRequest: (state) => {
-  //   state.isLoading = true;
-  // },
-  // getAllProductsSuccess: (state, action) => {
-  //   state.isLoading = false;
-  //   state.allProducts = action.payload;
-  // },
-  // getAllProductsFailed: (state, action) => {
-  //   state.isLoading = false;
-  //   state.error = action.payload;
-  // },
-  
-  // clearErrors: (state) => {
-  //   state.error = null;
-  // },
+
   updateProductStockRequest: (state) => {
     state.isLoading = true;
   },
@@ -99,6 +92,6 @@ export const productReducer = createReducer(initialState, {
   },
   updateProductStockFailed: (state, action) => {
     state.isLoading = false;
-    state.products = action.payload;
+    state.error = action.payload;
   }
 });

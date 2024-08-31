@@ -35,10 +35,10 @@ const Categories = () => {
         categoriesData.map((i) => {
           const handleSubmit = () => {
             console.log("i.title",i.title)
-            if(i.title==="Cloths"){
-            navigate(`/search/cloths?page=1`);
-          }else if(i.title==="Shoes"){
-            navigate(`/search/shoes?page=1`);
+            if(i.title==="Clothes"){
+            navigate(`/search/clothes?page=1`);
+          }else if(i.title==="Footwear"){
+            navigate(`/search/footwear?page=1`);
           }else if(i.title==="Accessories"){
             navigate(`/coming-soon`);
 
@@ -87,10 +87,10 @@ const Categories = () => {
           <div className="flex flex-wrap justify-between gap-5 md:gap-10 lg:gap-20 xl:gap-30">
             {categoriesData &&
               categoriesData.map((item) => (
-                <div className="w-1/4 md:w-1/4 lg:w-1/4 xl:w-1/5 cursor-pointer" key={item.id} onClick={() => {if(item.title==="Cloths"){
-                  navigate(`/search/cloths?page=1`);
-                }else if(item.title==="Shoes"){
-                  navigate(`/search/shoes?page=1`);
+                <div className="w-1/4 md:w-1/4 lg:w-1/4 xl:w-1/5 cursor-pointer" key={item.id} onClick={() => {if(item.title==="Clothes"){
+                  navigate(`/search/clothes?page=1`);
+                }else if(item.title==="Footwear"){
+                  navigate(`/search/footwear?page=1`);
                 }else if(item.title==="Accessories"){
                   navigate(`/coming-soon`);
       

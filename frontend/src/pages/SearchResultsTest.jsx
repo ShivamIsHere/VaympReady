@@ -18,7 +18,6 @@ import {
   neckType,
   color,
   fabric,
-  pattern,
   occasion,
   fit,
   gender,
@@ -26,8 +25,6 @@ import {
   subCategory,
   brandingData,
   shoeSizes,
-  braSizes,
-  jeansSizes,
   shoeOccasions,
   accessorySubCategories,
   footwearSubCategories
@@ -37,15 +34,16 @@ import BasicPagination from "./BasicPagination";
 
 const SearchResults = () => {
   const { query } = useParams();
+  console.log( "harsh", query)
   const navigate = useNavigate();
   const location = useLocation();
-  const isFetching = useRef(false); // To track if a fetch is ongoing
+ 
   const queryParams = new URLSearchParams(location.search);
   const initialPage = parseInt(queryParams.get('page')) || 1;
   console.log("khvbvmmvmvumv")
   const [filteredData, setFilteredData] = useState({});
   const [filteredDatas, setFilteredDatas] = useState([]);
-  const [initialLoading, setInitialLoading] = useState(true); // New state for initial loading
+
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -66,9 +64,6 @@ const SearchResults = () => {
     customerRatings: queryParams.get("customerRatings") ? queryParams.get("customerRatings").split(",") : [],
     priceRanges: queryParams.get("priceRanges") ? queryParams.get("priceRanges").split(",") : [],
     shoeSize: queryParams.get("shoeSize") ? queryParams.get("shoeSize").split(",") : [],
-    braSize: queryParams.get("braSize") ? queryParams.get("braSize").split(",") : [],
-    patterns: queryParams.get("patterns") ? queryParams.get("patterns").split(",") : [],
-    jeansSize: queryParams.get("jeansSize") ? queryParams.get("jeansSize").split(",") : [],
     shoeOccasion: queryParams.get("shoeOccasion") ? queryParams.get("shoeOccasion").split(",") : [],
     accessorySubCategorie: queryParams.get("accessorySubCategorie") ? queryParams.get("accessorySubCategorie").split(",") : [],
     footwearSubCategorie: queryParams.get("footwearSubCategorie") ? queryParams.get("footwearSubCategorie").split(",") : []
@@ -82,10 +77,6 @@ const SearchResults = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [showAllSizes, setShowAllSizes] = useState(false);
   const [showAllShoesSizes, setShowAllShoesSizes] = useState(false);
-  const [isJeans, setIsJeans] = useState(false);
-  const [isBra, setIsBra] = useState(false);
-  const [showAllBraSizes, setShowAllBraSizes] = useState(false);
-  const [showAllJeansSizes, setShowAllJeansSizes] = useState(false);
   const [showAllSubCategories, setShowAllSubCategories] = useState(false);
   const [showAllShoeSubCategories, setShowAllShoesSubCategories] = useState(false);
 
@@ -105,9 +96,6 @@ const SearchResults = () => {
     customerRatings: false,
     priceRanges: false,
     shoeSize: false,
-    patterns: false,
-    braSize: false,
-    jeansSize: false,
     shoeOccasion: false,
     accessorySubCategorie: false,
     footwearSubCategorie: false,
@@ -130,13 +118,10 @@ const SearchResults = () => {
       occasions: searchParams.get("occasions") ? searchParams.get("occasions").split(",") : [],
       subCategorys: searchParams.get("subCategorys") ? searchParams.get("subCategorys").split(",") : [],
       fabrics: searchParams.get("fabrics") ? searchParams.get("fabrics").split(",") : [],
-      patterns: searchParams.get("patterns") ? searchParams.get("patterns").split(",") : [],
       brandingDatas: searchParams.get("brandingDatas") ? searchParams.get("brandingDatas").split(",") : [],
       customerRatings: searchParams.get("customerRatings") ? searchParams.get("customerRatings").split(",") : [],
       priceRanges: searchParams.get("priceRanges") ? searchParams.get("priceRanges").split(",") : [],
       shoeSize: searchParams.get("shoeSize") ? searchParams.get("shoeSize").split(",") : [],
-      braSize: searchParams.get("braSize") ? searchParams.get("braSize").split(",") : [],
-      jeansSize: searchParams.get("jeansSize") ? searchParams.get("jeansSize").split(",") : [],
       shoeOccasion: searchParams.get("shoeOccasion") ? searchParams.get("shoeOccasion").split(",") : [],
       accessorySubCategorie: searchParams.get("accessorySubCategorie") ? searchParams.get("accessorySubCategorie").split(",") : [],
       footwearSubCategorie: searchParams.get("footwearSubCategorie") ? searchParams.get("footwearSubCategorie").split(",") : []
@@ -161,18 +146,16 @@ const SearchResults = () => {
           neckType: filters.neckTypes.join(","),
           size: filters.sizes.join(","),
           sleeveType: filters.sleeveTypes.join(","),
+          size: filters.sizes.join(","),
           fit: filters.fits.join(","),
           gender: filters.genders.join(","),
           occasion: filters.occasions.join(","),
           subCategory: filters.subCategorys.join(","),
           fabric: filters.fabrics.join(","),
-          pattern: filters.patterns.join(","),
           brandingData: filters.brandingDatas.join(","),
           customerRating: filters.customerRatings.join(","),
           priceRange: filters.priceRanges.join(","),
           shoeSizes:  filters.shoeSize.join(","),
-          braSizes:  filters.braSize.join(","),
-          jeansSizes:  filters.jeansSize.join(","),
           shoeOccasions:  filters.shoeOccasion.join(","),
           accessorySubCategories:  filters.accessorySubCategorie.join(","),
           footwearSubCategories:  filters.footwearSubCategorie.join(","),          
@@ -186,7 +169,7 @@ const SearchResults = () => {
           ...prevData,
           [currentPage]: data.products,
         }));
-        // setFilteredDatas(data.products);
+        setFilteredDatas(data.products);
         setTotalPages(data.totalPages);
       } else {
         setError("Failed to fetch products");
@@ -197,17 +180,6 @@ const SearchResults = () => {
       setIsLoading(false);
     }
   };
-  useEffect(() => {
-
-    fetchFilteredProducts();
-     //window.location.reload()
-   console.log("ghghghghghghghg",location.search)
-  }, [filters, sortBy, currentPage, query]);
-
-
-
- 
-  
   const fetchFilteredProduct = async () => {
     try {
       setIsLoading(true);
@@ -219,18 +191,16 @@ const SearchResults = () => {
           neckType: filters.neckTypes.join(","),
           size: filters.sizes.join(","),
           sleeveType: filters.sleeveTypes.join(","),
+          size: filters.sizes.join(","),
           fit: filters.fits.join(","),
           gender: filters.genders.join(","),
           occasion: filters.occasions.join(","),
           subCategory: filters.subCategorys.join(","),
           fabric: filters.fabrics.join(","),
-          pattern: filters.patterns.join(","),
           brandingData: filters.brandingDatas.join(","),
           customerRating: filters.customerRatings.join(","),
           priceRange: filters.priceRanges.join(","),
           shoeSizes:  filters.shoeSize.join(","),
-          braSizes:  filters.braSize.join(","),
-          jeansSizes:  filters.jeansSize.join(","),
           shoeOccasions:  filters.shoeOccasion.join(","),
           accessorySubCategories:  filters.accessorySubCategorie.join(","),
           footwearSubCategories:  filters.footwearSubCategorie.join(","),          
@@ -240,6 +210,10 @@ const SearchResults = () => {
 
       const data = response.data;
       if (data.success) {
+        setFilteredData((prevData) => ({
+          ...prevData,
+          [currentPage]: data.products,
+        }));
         setFilteredDatas(data.products);
         setTotalPages(data.totalPages);
       } else {
@@ -249,8 +223,6 @@ const SearchResults = () => {
       setError(error.message);
     } finally {
       setIsLoading(false);
-      setInitialLoading(false); // Update initial loading state
-
     }
   };
 useEffect(() => {
@@ -258,26 +230,17 @@ useEffect(() => {
   fetchFilteredProduct();
 }, [filters, sortBy, currentPage, query]); 
 
-// useEffect(() => {
-//   if (isSmallOrMediumScreen) {
-//     fetchFilteredProducts(currentPage);
-//   }
-// }, [filters, currentPage, isSmallOrMediumScreen]);
 
 useEffect(() => {
-  const fetchData = async () => {
-    if (isSmallOrMediumScreen) {
-      const pagesToFetch = Array.from({ length: currentPage }, (_, i) => i + 1);
-      await Promise.all(pagesToFetch.map((page) => fetchFilteredProducts(page)));
-    } else {
-      await fetchFilteredProducts();
-    }
-  };
-
-  fetchData();
-}, [filters, sortBy, currentPage, query, isSmallOrMediumScreen]);
-
-
+  if (isSmallOrMediumScreen) {
+    const pagesToFetch = Array.from({ length: currentPage }, (_, i) => i + 1);
+    pagesToFetch.forEach((page) => {
+      if (!filteredData[page]) {
+        fetchFilteredProducts(page);
+      }
+    });
+  }
+}, [isSmallOrMediumScreen, currentPage, filteredData,query, filters, sortBy]);
 
 
   useEffect(() => {
@@ -290,11 +253,7 @@ useEffect(() => {
       "modal", "linen blend", "wool blend", "poly cotton", "nylon", "viscose rayon", "cotton blend", "elastane",
       "organic cotton", "polyester", "pure cotton", "2xs", "xs", "s", "m", "l", "xl", "2xl", "3xl", "4xl", "5xl", "6xl",
       "7xl", "8xl", "beach wear", "casual", "formal", "lounge wear", "party", "sports", "boxy", "compression", "loose",
-      "oversized", "regular", "slim", "clothes", "shirt", "dresses", "cloths", "cloth", "kapra", "dress","underwears",
-      "salwar suits","skirt","bra","jeans","undergarments","kurtis","shocks","tops","Animal Print",
-      "Checkered","Color Block","Dyed/Ombre","Embellished","Embroidered","Ethnic Motifs","Floral Print","Geometric Print",
-      "Graphic Print","Military Camouflage","Polka Print","Printed","Self Design","Solid","Striped","Washed","Woven Design"
-    
+      "oversized", "regular", "slim", "clothes", "shirt", "dresses", "cloths", "cloth", "kapra", "dress"
     ];
 
     const shoesKeywords = [
@@ -304,7 +263,7 @@ useEffect(() => {
       "flat sandals", "sneakers", "running shoes", "loafers", "oxfords", "brogues", "boots", "heels", "flats",
       "moccasins", "derbies", "espadrilles", "shoes", "crocs", "3", "3.5", "4", "4.5", "5", "5.5", "6", "6.5", "7",
       "7.5", "8", "8.5", "9", "9.5", "10", "10.5", "11", "11.5", "12", "12.5", "13", "13.5", "14", "14.5", "15", "15.5",
-      "16", "joota", "juta", "jhoota", "jutta", "sliper", "slipers","shoes"
+      "16", "joota", "juta", "jhoota", "jutta", "sliper", "slipers"
     ];
 
     const stopWords = [
@@ -316,24 +275,13 @@ useEffect(() => {
     ];
 
     const queryWords = query.toLowerCase().split(" ").filter(word => !stopWords.includes(word));
-    const Bra = queryWords.some(word => ["bra", "bras", "bra's"].includes(word));
 
-    if (Bra) {
-      setIsBra(true)
-      console.log("The query includes a term related to 'bra'.");
-    }
-    const Jeans = queryWords.some(word => ["jeans", "jean", "jean's"].includes(word));
-
-if (Jeans) {
-  setIsJeans(true)
-  console.log("The query includes a term related to 'Jeans'.");
-}
-    const isClothesQuery = queryWords.some(word => clothesKeywords.some(keyword => keyword.includes(word)));
-    const isShoesQuery = queryWords.some(word => shoesKeywords.some(keyword => keyword.includes(word)));
-  console.log("hfejshmehgmfe,")
+    const isClothesQuery = queryWords.some(word => clothesKeywords.includes(word));
+    const isShoesQuery = queryWords.some(word => shoesKeywords.includes(word));
+console.log("hfejshmehgmfe,")
     if (isClothesQuery) {
       setIsClothes(true);
-      console.log("setIsClotheszzzzzzzzzzzzzzzzz",isClothesQuery)
+      console.log("setIsClothes",isClothes)
     }
     if (isShoesQuery) {
       setIsFootWear(true);
@@ -363,7 +311,6 @@ if (Jeans) {
     params.set(filterType, updatedFilters.join(","));
     params.delete('page');  // Reset to page 1 on filter change
     navigate(`${location.pathname}?${params.toString()}`);
-    // window.location.reload()
   };
 
   const handlePageChange = (newPage) => {
@@ -371,7 +318,7 @@ if (Jeans) {
     const params = new URLSearchParams(location.search);
     params.set("page", newPage);
     navigate(`${location.pathname}?${params.toString()}`);
-    // window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
 
   };
 
@@ -418,12 +365,6 @@ if (Jeans) {
         case "shoeSize":
         setShowAllShoesSizes(!showAllShoesSizes);
         break;
-        case "braSize":
-        setShowAllBraSizes(!showAllBraSizes);
-        break;
-        case "jeansSize":
-        setShowAllJeansSizes(!showAllJeansSizes);
-        break;
       case "subCategorys":
         setShowAllSubCategories(!showAllSubCategories);
         break;
@@ -450,7 +391,6 @@ if (Jeans) {
       neckTypes: [],
       sleeveTypes: [],
       fabrics: [],
-      patterns:[],
       occasions: [],
       fits: [],
       subCategorys: [],
@@ -458,8 +398,6 @@ if (Jeans) {
       customerRatings: [],
       priceRanges: [],
       shoeSize: [],
-      braSize: [],
-      jeansSize: [],
       shoeOccasion: [],
       accessorySubCategorie: [],
       footwearSubCategorie: [],
@@ -467,12 +405,8 @@ if (Jeans) {
     setCurrentPage(1);
     setIsFootWear(false);
     setIsClothes(false);
-    setIsJeans(false);
-    setIsBra(false);
     setShowAllSizes(false);
     setShowAllShoesSizes(false);
-    setShowAllJeansSizes(false);
-    setShowAllBraSizes(false);
     setShowAllSubCategories(false);
     setShowAllShoesSubCategories(false);
     setShowAllColors(false);
@@ -483,7 +417,6 @@ if (Jeans) {
       subCategorys: false,
       neckTypes: false,
       fabrics: false,
-      patterns: false,
       occasions: false,
       fits: false,
       sleeveTypes: false,
@@ -492,8 +425,6 @@ if (Jeans) {
       customerRatings: false,
       priceRanges: false,
       shoeSize: false,
-      braSize: false,
-      jeansSize: false,
       shoeOccasion: false,
       accessorySubCategorie: false,
       footwearSubCategorie: false,
@@ -508,13 +439,10 @@ if (Jeans) {
   params.delete("occasions");
   params.delete("subCategorys");
   params.delete("fabrics");
-  params.delete("patterns");
   params.delete("brandingDatas");
   params.delete("customerRatings");
   params.delete("priceRanges");
   params.delete("shoeSize");
-  params.delete("braSize");
-  params.delete("jeansSize");
   params.delete("shoeOccasion");
   params.delete("accessorySubCategorie");
   params.delete("footwearSubCategorie");
@@ -532,9 +460,6 @@ if (Jeans) {
 
   const visibleSizes = showAllSizes ? size : size.slice(0, 6);
   const visibleShoesSizes = showAllShoesSizes ? shoeSizes : shoeSizes.slice(0, 6);
-  const visibleBraSizes = showAllBraSizes ? braSizes : braSizes.slice(0, 6);
-  const visibleJeansSizes = showAllJeansSizes ? jeansSizes : jeansSizes.slice(0, 6);
-
   const visibleSubCategories = showAllSubCategories ? subCategory : subCategory.slice(0, 6);
   const visibleShoeSubCategories = showAllShoeSubCategories ? footwearSubCategories : footwearSubCategories.slice(0, 6);
 
@@ -542,58 +467,20 @@ if (Jeans) {
   const visibleNeckTypes = showAllNeckTypes ? neckType : neckType.slice(0, 6);
 
 
-  // const { ref: loadMoreRef, inView } = useInView({
-  //   threshold: 1.0,
-  // });
-  // // console.log("currentPagecurrentPage",currentPage)
-  // // console.log("currentPagecurrentPage",initialPage)
-
-
-  // useEffect(() => {
-  //   if (inView && !isLoading&& currentPage < totalPages) {
-  //     handlePageChange(currentPage + 1);
-  //   }
-  // }, [inView, currentPage, totalPages,isLoading]);
-
   const { ref: loadMoreRef, inView } = useInView({
     threshold: 1.0,
   });
-  
-  // useEffect(() => {
-  //   if (inView && !isLoading&& currentPage < totalPages) {
-  //     handlePageChange(currentPage + 1);
-  //   }
-  // }, [inView, currentPage, totalPages,isLoading,filters]);
+  // console.log("currentPagecurrentPage",currentPage)
+  // console.log("currentPagecurrentPage",initialPage)
 
-  // useEffect(() => {
-  //   if (inView && !isLoading && currentPage < totalPages) {
-  //     setCurrentPage(prevPage => {
-  //       const nextPage = prevPage + 1;
-  //       fetchFilteredProducts(nextPage);
-  //       return nextPage;
-  //     });
-  //   }
-  // }, [inView, isLoading, totalPages]);
+
   useEffect(() => {
-    if (inView && !isFetching.current && currentPage < totalPages) {
-      isFetching.current = true; // Set fetching to true to prevent multiple fetches
-      
-      const fetchNextPage = async () => {
-        const nextPage = currentPage + 1;
-
-        // Fetch data for the next page
-        await fetchFilteredProducts(nextPage);
-        
-        // Only update the state after the fetch is complete
-        setCurrentPage(nextPage);
-        handlePageChange(nextPage); // Update the URL with the new page number
-
-        isFetching.current = false; // Set fetching to false after completion
-      };
-
-      fetchNextPage();
+    if (inView && !isLoading&& currentPage < totalPages) {
+      handlePageChange(currentPage + 1);
     }
-  }, [inView, currentPage, totalPages]);
+  }, [inView, currentPage, totalPages,isLoading]);
+
+
   const getAllProducts = () => {
     const allProducts = [];
     Object.values(filteredData).forEach((pageData) => {
@@ -601,11 +488,10 @@ if (Jeans) {
     });
     return allProducts;
   };
-
 // console.log("getAllProducts()getAllProducts()",getAllProducts())
   return (
     <>
-      {initialLoading  && currentPage === 1 ? (
+      {isLoading && currentPage === 1 ? (
         <Loader />
       ): (
         <div className="w-full">
@@ -676,21 +562,27 @@ if (Jeans) {
             {/* for larger screen */}
 
     
-            {isValid===true&&filteredDatas.length !== 0&&
-              <div>
-  <div
-    className="hidden lg:flex fixed right-5 bottom-24 mb-2 p-4 bg-red-500 rounded-full text-white cursor-pointer"
-    onClick={toggleDrawer}
-  >
-    <FaFilter size={25} />
-  </div>
-  <div
-    className="hidden lg:flex fixed right-5 bottom-10 p-4 bg-red-500 rounded-full text-white cursor-pointer"
-    onClick={toggleSortDrawer}
-  >
-    <BiSortAlt2 size={25} />
-  </div>
-</div>}
+            {isValid===true&&filteredDatas.length !== 0&&<div className=" bg-gray-100  rounded-full flex mb-1 mt-1 sticky top-28 justify-between items-center"
+              style={{ zIndex: 1 }}
+            >
+              <h4 className="text-4xl font-semibold text-gray-700 hidden lg:block">New Arrivals</h4>
+              <button
+                className="w-1/6 font-bold text-lg bg-white text-gray-800 px-4 py-2 tracking-wider rounded-full border border-gray-300 shadow-sm mr-11 ml-auto hidden lg:flex items-center justify-center space-x-2 hover:bg-blue-100 transition duration-300 ease-in-out"
+                onClick={toggleDrawer}
+              >
+                  <AiFillFilter className="text-xl text-gray-800" />
+                  <span className="text-center">Filter</span>
+              </button>
+
+
+              <button
+                className="w-1/6 font-bold text-lg bg-white text-gray-800 px-4 py-2 tracking-wider rounded-full border border-gray-300 shadow-sm hidden lg:flex items-center justify-center space-x-2 hover:bg-blue-100 transition duration-300 ease-in-out"
+                onClick={toggleSortDrawer}
+              >
+                   <AiOutlineSwap className="text-xl text-gray-800" />
+                   <span className="text-center">Sort</span>
+              </button>
+            </div>}
 
 
 
@@ -728,7 +620,7 @@ if (Jeans) {
                   </h3>
                   {dropdowns.colors &&
                     visibleColors.map((c) => (
-                      <label key={c.id} className="block ml-2">
+                      <label key={c.id} className="block ml-2 my-2">
                         <input
                           type="checkbox"
                           value={c.name}
@@ -758,7 +650,7 @@ if (Jeans) {
                   </h3>
                   {dropdowns.shoeSize &&
                     visibleShoesSizes.map((s) => (
-                      <label key={s.id} className="block ml-2">
+                      <label key={s.id} className="block ml-2 my-2">
                         <input
                           type="checkbox"
                           value={s.type}
@@ -777,70 +669,7 @@ if (Jeans) {
                     </button>
                   )}
                 </div>}
-
-
-                {isClothes===true&&isBra===true&&<div className="mb-4">
-                  <h3
-                    className="cursor-pointer flex items-center justify-between border-t-1 border-b-2 border-gray-300 text-gray-700 p-3 rounded-lg mb-2 hover:border-gray-500 transition duration-300 ease-in-out"
-                    onClick={() => toggleDropdown("braSize")}
-                  >
-                    Size
-                    {dropdowns.braSize ? <AiOutlineCaretUp /> : <AiOutlineCaretDown />}
-                  </h3>
-                  {dropdowns.braSize &&
-                    visibleBraSizes.map((s) => (
-                      <label key={s.id} className="block ml-2 my-2">
-                        <input
-                          type="checkbox"
-                          value={s.type}
-                          checked={filters.braSize.includes(s.type)}
-                          onChange={() => handleCheckboxChange("braSize", s.type)}
-                        />
-                        {s.type}
-                      </label>
-                    ))}
-                  {dropdowns.braSize && braSizes.length > 6 && (
-                    <button
-                      className="ml-2 text-blue-500"
-                      onClick={() => toggleShowAll("braSize")}
-                    >
-                      {showAllBraSizes ? "See Less" : "See More"}
-                    </button>
-                  )}
-                </div>}
-
-
-
-                {isClothes===true&&isJeans==true&&<div className="mb-4">
-                  <h3
-                    className="cursor-pointer flex items-center justify-between border-t-1 border-b-2 border-gray-300 text-gray-700 p-3 rounded-lg mb-2 hover:border-gray-500 transition duration-300 ease-in-out"
-                    onClick={() => toggleDropdown("jeansSize")}
-                  >
-                    Size
-                    {dropdowns.jeansSize ? <AiOutlineCaretUp /> : <AiOutlineCaretDown />}
-                  </h3>
-                  {dropdowns.jeansSize &&
-                    visibleJeansSizes.map((s) => (
-                      <label key={s.id} className="block ml-2 my-2">
-                        <input
-                          type="checkbox"
-                          value={s.type}
-                          checked={filters.jeansSize.includes(s.type)}
-                          onChange={() => handleCheckboxChange("jeansSize", s.type)}
-                        />
-                        {s.type}
-                      </label>
-                    ))}
-                  {dropdowns.jeansSize && jeansSizes.length > 6 && (
-                    <button
-                      className="ml-2 text-blue-500"
-                      onClick={() => toggleShowAll("jeansSize")}
-                    >
-                      {showAllJeansSizes ? "See Less" : "See More"}
-                    </button>
-                  )}
-                </div>}
-                {isClothes===true&&isBra!=true&&isJeans!=true&&<div className="mb-4">
+                {isClothes===true&&<div className="mb-4">
                   <h3
                     className="cursor-pointer flex items-center justify-between border-t-1 border-b-2 border-gray-300 text-gray-700 p-3 rounded-lg mb-2 hover:border-gray-500 transition duration-300 ease-in-out"
                     onClick={() => toggleDropdown("sizes")}
@@ -850,7 +679,7 @@ if (Jeans) {
                   </h3>
                   {dropdowns.sizes &&
                     visibleSizes.map((s) => (
-                      <label key={s.id} className="block ml-2 ">
+                      <label key={s.id} className="block ml-2 my-2">
                         <input
                           type="checkbox"
                           value={s.type}
@@ -977,27 +806,6 @@ if (Jeans) {
                           value={f.type}
                           checked={filters.fabrics.includes(f.type)}
                           onChange={() => handleCheckboxChange("fabrics", f.type)}
-                        />
-                        {f.type}
-                      </label>
-                    ))}
-                </div>}
-                {isClothes===true&&<div className="mb-4">
-                  <h3
-                    className="cursor-pointer flex items-center justify-between border-t-1 border-b-2 border-gray-300 text-gray-700 p-3 rounded-lg mb-2 hover:border-gray-500 transition duration-300 ease-in-out"
-                    onClick={() => toggleDropdown("patterns")}
-                  >
-                    Pattern
-                    {dropdowns.patterns ? <AiOutlineCaretUp /> : <AiOutlineCaretDown />}
-                  </h3>
-                  {dropdowns.patterns &&
-                    pattern.map((f) => (
-                      <label key={f.id} className="block ml-2 my-2">
-                        <input
-                          type="checkbox"
-                          value={f.type}
-                          checked={filters.patterns.includes(f.type)}
-                          onChange={() => handleCheckboxChange("patterns", f.type)}
                         />
                         {f.type}
                       </label>
@@ -1198,7 +1006,7 @@ if (Jeans) {
             </div>
             </>
             )}
-            {!isLoading && filteredDatas.length === 0 ?(
+            {filteredDatas.length === 0 ? (
               // <div className="text-center text-gray-500 mt-4">No products found</div>
               <div className="bg-zinc-100 hidden lg:flex justify-center items-center">
 <div className="flex items-center justify-center min-h-[80vh] bg-gradient-to-r from-blue-100 to-blue-300 p-6 sm:p-12">
@@ -1230,7 +1038,7 @@ if (Jeans) {
 
             {/* Loader for Medium and Small Screens */}
             <div ref={loadMoreRef} className="mt-4 flex justify-center lg:hidden">
-              {isLoading && <ClipLoader
+              {isLoading===true && <ClipLoader
                   color="#2874F0"
                   size={55}
                   // loading={isLoading}
@@ -1242,115 +1050,97 @@ if (Jeans) {
           {/* Pagination for Large Screens */}
             <div className="flex flex-col flex-1 p-4">
         
-            {filteredDatas.length !== 0 && (
-  <div className="mt-4 justify-center hidden lg:flex">
-    {typeof window !== "undefined" && window.innerWidth >= 1024 && (
-      <BasicPagination count={totalPages} page={currentPage} onChange={handlePageChange} />
-    )}
-  </div>
-)}
-
+            {filteredDatas.length !== 0 &&<div className="mt-4 justify-center hidden lg:flex">
+          <BasicPagination count={totalPages} page={currentPage} onChange={handlePageChange} />
+        </div>}
       </div>
     </div>
           {/* Sort Drawer */}
-          
-          <div
-              className={`fixed inset-0 bg-gray-900 bg-opacity-50 z-40 transition-opacity ${sortDrawerOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-                }`}
-              onClick={toggleSortDrawer}
-            ></div>
-      <div className="grid grid-cols-2 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-3 lg:gap-[25px] xl:grid-cols-4 xl:gap-[20px] mb-4 border-0">
-
-
-      <div className={`fixed left-0 bottom-0 w-full bg-white shadow-lg transition-transform transform ${sortDrawerOpen ? 'translate-y-0' : 'translate-y-full'} z-50`}>
-  <div className="flex items-center justify-between p-4">
-    <h2 className="text-xl font-semibold">Sort By</h2>
-    <button onClick={toggleSortDrawer} className="text-2xl">
-      <AiOutlineClose />
-    </button>
-  </div>
-  <div className="flex flex-col p-4">
-    <div className="flex items-center mb-1">
-      <input
-        type="radio"
-        id="sortByPriceLowToHigh"
-        name="sortBy"
-        className="mr-2 my-2"
-        value="Price: Low to High"
-        onClick={() => handleSortOption("price-asc")}
-        checked={sortBy === "price-asc"}
-        onChange={toggleSortDrawer}
-      />
-      <label htmlFor="sortByPriceLowToHigh">Price (Low to High)</label>
-    </div>
-    <div className="flex items-center mb-1">
-      <input
-        type="radio"
-        id="sortByPriceHighToLow"
-        name="sortBy"
-        className="mr-2 my-2"
-        value="Price: High to Low"
-        onClick={() => handleSortOption("price-desc")}
-        checked={sortBy === "price-desc"}
-        onChange={toggleSortDrawer}
-      />
-      <label htmlFor="sortByPriceHighToLow">Price (High to Low)</label>
-    </div>
-    <div className="flex items-center mb-1">
-      <input
-        type="radio"
-        id="sortByRatingLowToHigh"
-        name="sortBy"
-        className="mr-2 my-2"
-        value="Rating: Low to High"
-        onClick={() => handleSortOption("rating-asc")}
-        checked={sortBy === "rating-asc"}
-        onChange={toggleSortDrawer}
-      />
-      <label htmlFor="sortByRatingLowToHigh">Rating (Low to High)</label>
-    </div>
-    <div className="flex items-center mb-1">
-      <input
-        type="radio"
-        id="sortByRatingHighToLow"
-        name="sortBy"
-        className="mr-2 my-2"
-        value="Rating: High to Low"
-        onClick={() => handleSortOption("rating-desc")}
-        checked={sortBy === "rating-desc"}
-        onChange={toggleSortDrawer}
-      />
-      <label htmlFor="sortByRatingHighToLow">Rating (High to Low)</label>
-    </div>
-    <div className="flex items-center mb-1">
-      <input
-        type="radio"
-        id="sortByDateOldToNew"
-        name="sortBy"
-        className="mr-2 my-2"
-        value="Date: Old to New"
-        onClick={() => handleSortOption("date-asc")}
-        checked={sortBy === "date-asc"}
-        onChange={toggleSortDrawer}
-      />
-      <label htmlFor="sortByDateOldToNew">Date (Old to New)</label>
-    </div>
-    <div className="flex items-center mb-1">
-      <input
-        type="radio"
-        id="sortByDateNewToOld"
-        name="sortBy"
-        className="mr-2 my-2"
-        value="Date: New to Old"
-        onClick={() => handleSortOption("date-desc")}
-        checked={sortBy === "date-desc"}
-        onChange={toggleSortDrawer}
-      />
-      <label htmlFor="sortByDateNewToOld">Date (New to Old)</label>
-    </div>
-  </div>
-</div>
-</div>
+          {sortDrawerOpen && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-end">
+              <div className="bg-white w-full lg:w-full p-4 overflow-y-auto rounded-t-lg">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-lg font-bold">Sort Options</h2>
+                  <AiOutlineClose className="cursor-pointer" onClick={toggleSortDrawer} />
+                </div>
+                {/* Sorting options */}
+                <div className="flex flex-col">
+                  <div className="flex items-center mb-1">
+                    <input
+                      type="radio"
+                      id="sortByPriceLowToHigh"
+                      name="sortBy"
+                      className="mr-2 my-2"
+                      value="Price: Low to High"
+                      onClick={() => handleSortOption("price-asc")}
+                      onChange={toggleSortDrawer}
+                    />
+                    <label htmlFor="sortByPriceLowToHigh">Price (Low to High)</label>
+                  </div>
+                  <div className="flex items-center mb-1">
+                    <input
+                      type="radio"
+                      id="sortByPriceHighToLow"
+                      name="sortBy"
+                      className="mr-2 my-2"
+                      value="Price: High to Low"
+                      onClick={() => handleSortOption("price-desc")}
+                      onChange={toggleSortDrawer}
+                    />
+                    <label htmlFor="sortByPriceHighToLow">Price (High to Low)</label>
+                  </div>
+                  <div className="flex items-center mb-1">
+                    <input
+                      type="radio"
+                      id="sortByRatingLowToHigh"
+                      name="sortBy"
+                      className="mr-2 my-2"
+                      value="Rating: Low to High"
+                      onClick={() => handleSortOption("rating-asc")}
+                      onChange={toggleSortDrawer}
+                    />
+                    <label htmlFor="sortByRatingLowToHigh">Rating (Low to High)</label>
+                  </div>
+                  <div className="flex items-center mb-1">
+                    <input
+                      type="radio"
+                      id="sortByRatingHighToLow"
+                      name="sortBy"
+                      className="mr-2 my-2"
+                      value="Rating: High to Low"
+                      onClick={() => handleSortOption("rating-desc")}
+                      onChange={toggleSortDrawer}
+                    />
+                    <label htmlFor="sortByRatingHighToLow">Rating (high to Low)</label>
+                  </div>
+                  <div className="flex items-center mb-1">
+                    <input
+                      type="radio"
+                      id="sortByDateOldToNew"
+                      name="sortBy"
+                      className="mr-2 my-2"
+                      value="Date: Old to New"
+                      onClick={() => handleSortOption("date-asc")}
+                      onChange={toggleSortDrawer}
+                    />
+                    <label htmlFor="sortByDateOldToNew">Date (Old to New)</label>
+                  </div>
+                  <div className="flex items-center mb-1">
+                    <input
+                      type="radio"
+                      id="sortByDateNewToOld"
+                      name="sortBy"
+                      className="mr-2 my-2"
+                      value="Date: New to Old"
+                      onClick={() => handleSortOption("date-desc")}
+                      onChange={toggleSortDrawer}
+                    />
+                    <label htmlFor="sortByDateNewToOld">Date (New to Old)</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
          {/* <Footer /> */}
         </div>
       )}

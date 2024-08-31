@@ -54,7 +54,7 @@ const Address = () => {
 
     if (name===""||addressType === "" || phoneNumber === "" || city === "") {
       toast.error("Please fill all the fields!",{
-        autoClose:1000, // Duration in milliseconds
+        autoClose:2000, // Duration in milliseconds
         });
     } else {
       dispatch(
@@ -62,18 +62,17 @@ const Address = () => {
           {
             userName: name,
             phoneNumber,
-            // altphoneNumber,
-            // landmark,
+            altphoneNumber,
+            landmark,
             city,
             address1,
-            // address2,
+            address2,
             zipCode,
             addressType: "Home",
             isLastUsed: true
           }
         )
       );
-      
       setOpen(false);
       setName(""); // Reset name state
       setPhoneNumber("");
@@ -172,7 +171,6 @@ const Address = () => {
                 <input
                   type="number"
                   className="border h-[40px] rounded-[5px] w-full"
-                  required
                   value={altphoneNumber}
                   onChange={(e) => setAltPhoneNumber(e.target.value)}
                 />

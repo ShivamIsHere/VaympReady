@@ -12,14 +12,137 @@ import {
 import { toast } from "react-toastify";
 import { useNavigate,Link, useLocation } from "react-router-dom";
 import { getAllProducts } from "../../redux/actions/product";
-
+import { Oval } from 'react-loader-spinner';
+import Loader from "../Layout/Loader";
+import axios from "axios";
+import { server } from "../../server";
+import CartOutOfStock from "./cartOutOfStock";
 const Cart = ({ setOpenCart }) => {
   const { cart } = useSelector((state) => state.cart);
   const cartRef = useRef(null);
   const location = useLocation();
+  // const [loading, setLoading] = useState(true);
   console.log("URL", location.pathname);
+  // const [allProduct, setAllProduct] = useState([]);
+  const [allProducts1, setAllProduct] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  
+  // useEffect(() => {
+  //   let c=localStorage.getItem("cartItems");
+  //   cart=c;
+  // }, []);
   const dispatch = useDispatch();
+
+  //useEffect(() => {
+    // Define an async function to fetch data
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${server}/product/get-all-products`, {
+          withCredentials: true,
+        });
+        // Update state with the fetched data
+        const allProducts = response.data.pro;
+  
+        // Get cart items from localStorage
+        let cartItems = JSON.parse(localStorage.getItem("cartItems"));
+  
+        if (cartItems && allProducts) {
+          const filteredProducts = cartItems.filter(product =>
+            allProducts.some(out => out._id === product._id)
+          );
+  
+          filteredProducts.forEach((val) => {
+            let prod = allProducts.find((pro) => pro._id === val._id);
+  
+            if (prod) {
+              val.stock = val.stock.map((stockItem) => {
+                const matchingProdSize = prod.stock.find(k1 => k1.size === stockItem.size);
+                if (matchingProdSize) {
+                  return {
+                    ...stockItem,
+                    quantity: matchingProdSize.quantity
+                  };
+                }
+                return stockItem;
+              });
+            }
+          });
+  
+          // Optionally update cartItems in localStorage or state
+           localStorage.setItem("cartItems", JSON.stringify(filteredProducts));
+          console.log("Filtered products:", filteredProducts);
+        }
+  
+        // Set allProducts1 after processing
+        //setAllProduct(allProducts);
+      } catch (error) {
+        console.log('Error fetching data:', error.response);
+      } finally {
+        // Set loading to false regardless of success or failure
+        //setLoading(false);
+      }
+    };
+  
+    fetchData();
+  //}, []); // Empty dependency array means this runs only once after initial render
+  
+
+  // useEffect(() => {
+  //   // Define an async function to fetch data
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(`${server}/product/get-all-products`, {
+  //         withCredentials: true,
+  //       });
+  //       // Update state with the fetched data
+  //       setAllProduct(response.data.pro);
+  //     } catch (error) {
+  //       console.log('Error fetching data:', error.response);
+  //     } finally {
+  //       // Set loading to false regardless of success or failure
+  //       setLoading(false);
+  //     }
+  //   };
+  
+  //   fetchData();
+  
+  //   // Get cart items from localStorage
+  //   let cartItems = JSON.parse(localStorage.getItem("cartItems"));
+  
+  //   if (cartItems && allProducts1) {
+  //     const filteredProducts = cartItems.filter(product =>
+  //       allProducts1.some(out => out._id === product._id)
+  //     );
+  
+  //     filteredProducts.forEach((val) => {
+  //       let prod = allProducts1.find((pro) => pro._id === val._id);
+  
+  //       if (prod) {
+  //         val.stock = val.stock.map((stockItem) => {
+  //           const matchingProdSize = prod.stock.find(k1 => k1.size === stockItem.size);
+  //           if (matchingProdSize) {
+  //             return {
+  //               ...stockItem,
+  //               quantity: matchingProdSize.quantity
+  //             };
+  //           }
+  //           return stockItem;
+  //         });
+  //       }
+  //     });
+  
+  //     // You might want to update the cart in localStorage or state if necessary
+  //     //localStorage.setItem("cartItems", JSON.stringify(filteredProducts));
+  //     // console.log("ddddddddddddddddddd",filteredProducts)
+  //     if(filteredProducts.length>0){
+  //       console.log("ddddddddddddddddddd906",filteredProducts)
+  //     }
+  //   }
+  
+  // }, [allProducts1]); // Ensure allProducts1 is part of the dependency array
+  
+
   console.log("cartjj", cart);
   let totalCount = 0;
   cart.forEach((item) => {
@@ -173,7 +296,11 @@ const Cart = ({ setOpenCart }) => {
                 />
               )}
             </div>
-            <h5><strong>Cart is empty!</strong></h5>
+            <div className="flex flex-col"><h5><strong>Cart is empty!</strong></h5>
+              <div className="w-full border-t">
+                {/* <CartOutOfStock/> */}
+              </div>            
+            </div>
           </div>
         ) : (
           <>
@@ -208,7 +335,7 @@ const Cart = ({ setOpenCart }) => {
                     return (
                       <div key={index}>
                         {item.stock.map((val2, stockIndex) => {
-                          if (val2.isSelected) {
+                          if (val2.isSelected && val2.quantity!=0) {
                             return (
                               <CartSingle
                                 key={val2._id}
@@ -216,6 +343,20 @@ const Cart = ({ setOpenCart }) => {
                                 val2={val2}
                                 quantityChangeHandler={quantityChangeHandler}
                                 removeFromCartHandler={removeFromCartHandler}
+                                col={"white"}
+                                isout={false}
+                              />
+                            );
+                          } else  if (val2.isSelected && val2.quantity==0) {
+                            return (
+                              <CartSingle
+                                key={val2._id}
+                                data={item}
+                                val2={val2}
+                                quantityChangeHandler={quantityChangeHandler}
+                                removeFromCartHandler={removeFromCartHandler}
+                                col={"red"}
+                                isout={true}
                               />
                             );
                           } else {
@@ -226,8 +367,11 @@ const Cart = ({ setOpenCart }) => {
                     );
                   })}
               </div>
-            </div>
+              <div className="w-full border-t">
 
+              {/* <CartOutOfStock/> */}
+              </div>
+            </div>
             <div className="px-5 mb-3 mt-3">
               {/* checkout buttons */}
               <Link to="/checkout">
@@ -252,34 +396,95 @@ const CartSingle = ({
   data,
   quantityChangeHandler,
   removeFromCartHandler,
+  col,
+  isout
 }) => {
   const [selectedSize, setSelectedSize] = useState(val2.size); // Example: Initialize selected size state
   const [value, setValue] = useState(val2.qty);
   const totalPrice = data.discountPrice * value;
-  const { allProducts } = useSelector((state) => state.products);
-  const [error, setError] = useState("");
+  // const { allProducts } = useSelector((state) => state.products);
+  const [allProducts, setAllProduct] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    // Check if the selected size has a quantity of 0 and remove it from the cart if true
-    if (allProducts && Array.isArray(allProducts)) {
-      const matchingProduct = allProducts.find(
-        (product) => product._id === data._id
-      );
-      console.log("matchingProduct", matchingProduct);
-      if (matchingProduct && matchingProduct.stock) {
-        const stockItem = matchingProduct.stock.find(
-          (item) => item.size === selectedSize
-        );
-        console.log("stockItem", stockItem);
-        if (stockItem && stockItem.quantity === 0) {
-          removeFromCartHandler(data, selectedSize);
-          toast.error(
-            `The size ${selectedSize} for the product ${data.name} is out of stock and has been removed from the cart.`,{
-              autoClose:2000, // Duration in milliseconds
-              });
-        }
+    // Define an async function to fetch data
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${server}/product/get-all-products`, {
+          withCredentials: true,
+        });
+        // Update state with the fetched data
+        setAllProduct(response.data.pro);
+      } catch (error) {
+        console.log('Error fetching data:', error.response);
+      } finally {
+        // Set loading to false regardless of success or failure
+        setLoading(false);
       }
-    }
-  }, [allProducts, data._id, selectedSize, removeFromCartHandler]);
+    };
+
+    fetchData();
+  }, []); 
+  // console.log("getAllProducts",getAllProducts())
+  // console.log("getAllProducts2222",getAllProducts)
+
+  // const dispatch = useDispatch();
+  // useEffect(()=>{
+  //   // console.log("getAllProducts",allProducts)
+  //   dispatch(getAllProducts())
+  // },[])
+  const [error, setError] = useState("");
+//   useEffect(() => {
+  
+//     // Check if the selected size has a quantity of 0 and remove it from the cart if true
+//     if (allProducts && Array.isArray(allProducts)) {
+//       const matchingProduct = allProducts.find(
+//         (product) => product._id === data._id
+//       );
+//       console.log("matchingProduct", matchingProduct);
+//       if (matchingProduct && matchingProduct.stock) {
+//         const stockItem = matchingProduct.stock.find(
+//           (item) => item.size === selectedSize
+//         );
+//         console.log("stockItem", stockItem);
+//         if (stockItem && stockItem.quantity === 0 &&selectedSize==stockItem.size) {
+//           // localStorage.getItem
+//           if(selectedSize==stockItem.size){
+//             let storedProducts = JSON.parse(localStorage.getItem('outOfStock')) || [];
+//             console.log("Stored Products", storedProducts);
+//         let mk=storedProducts.filter((val)=>{
+//           return JSON.stringify(val)==JSON.stringify(matchingProduct);
+//         })
+//         if(mk.length==0 &&matchingProduct){
+//  // Push the matchingProduct object (not a JSON string)
+
+//   storedProducts=storedProducts.filter((val1)=>{
+//   return val1._id!=matchingProduct._id
+//  })
+//  storedProducts.push(matchingProduct);
+        
+//  // Store the updated array back to localStorage
+//  localStorage.setItem('outOfStock', JSON.stringify(storedProducts));
+//         }
+           
+//           }
+          
+//           removeFromCartHandler(data, selectedSize);
+//           toast.error(
+//             `The size ${selectedSize} for the product ${data.name} is out of stock and has been removed from the cart.`,{
+//               autoClose:2000, // Duration in milliseconds
+//               });
+//         }
+//       }
+//     }
+//   }, [allProducts, selectedSize, removeFromCartHandler]);
+
+   const outOfStockData = localStorage.getItem("outOfStock");
+   const outOfStockItems = outOfStockData ? JSON.parse(outOfStockData) : [];
+
+  
+// console.log("djjjjjjjdjdjdjjdj",outOfStockItems)
+
 
   const increment = () => {
     console.log("mydata", selectedSize);
@@ -311,7 +516,11 @@ const CartSingle = ({
   };
 
   return (
-    <div className="border-[#928f8f] border-t-[1px] border-b-[1px] p-4">
+    <>
+    {loading ? (
+        <Loader />
+      ): (
+    <div className="border-[#928f8f] border-t-[1px] border-b-[1px] p-4" style={{backgroundColor:col}}>
       <div className="w-full flex items-center">
         <img
           src={`${data?.images?.[0]?.url}`}
@@ -348,7 +557,8 @@ const CartSingle = ({
           </div>
         </div>
       </div>
-      <div className="flex justify-between">
+      {isout?<div>out of stock </div>:
+        <div className="flex justify-between">
         <div className="flex items-center">
           <div className="flex items-center mt-2">
             <div
@@ -378,9 +588,45 @@ const CartSingle = ({
             Remove
           </button>
         </div>
-      </div>
+      </div>}
+      
     </div>
+
+
+
+
+
+
+
+
+    
+  )}
+  
+
+  </>
   );
 };
 
+
 export default Cart;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

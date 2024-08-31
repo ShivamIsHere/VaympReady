@@ -9,8 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllOrdersOfAdmin } from "../../redux/actions/order";
 import Loader from "../Layout/Loader";
 import { getAllSellers } from "../../redux/actions/sellers";
-
-const AdminDashboardMain = () => {
+import axios from "axios";
+import { server } from "../../server";const AdminDashboardMain = () => {
   const dispatch = useDispatch();
 
   const { adminOrders,adminOrderLoading } = useSelector((state) => state.order);
@@ -20,11 +20,32 @@ const AdminDashboardMain = () => {
     dispatch(getAllOrdersOfAdmin());
     dispatch(getAllSellers());
   }, []);
-
-   const adminEarning = adminOrders && adminOrders.reduce((acc,item) => acc + item.totalPrice * .10, 0);
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`${server}/kuchvi/get-all-admin-kuchvi-request`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log("jklllllllllll989",res.data)
+      
+        setData(res.data.allKuchviRequest);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  }, []);
+console.log("111111",adminOrders)
+const adminEarning = data && data.reduce((acc, item) => {
+  return item.status === "Delivered" ? acc + (item.discountPrice - item.shopPrice) : acc;
+}, 0);
+   const adminRevenue = data && data.reduce((acc, item) => {
+    return item.status === "Delivered" ? acc + (item.discountPrice) : acc;
+  }, 0); 
 
 
    const adminBalance = adminEarning?.toFixed(2);
+   const adminTotalRevenue = adminRevenue?.toFixed(2);
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
@@ -101,7 +122,21 @@ const AdminDashboardMain = () => {
             </div>
             <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">Rs{adminBalance}</h5>
           </div>
-  
+          <div className="w-full mb-4 800px:w-[30%] min-h-[20vh] bg-white shadow rounded px-2 py-5">
+            <div className="flex items-center">
+              <AiOutlineMoneyCollect
+                size={30}
+                className="mr-2"
+                fill="#00000085"
+              />
+              <h3
+                className={`${styles.productTitle} !text-[18px] leading-5 !font-[400] text-[#00000085]`}
+              >
+                Total Revenue
+              </h3>
+            </div>
+            <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">Rs{adminTotalRevenue}</h5>
+          </div>
           <div className="w-full mb-4 800px:w-[30%] min-h-[20vh] bg-white shadow rounded px-2 py-5">
             <div className="flex items-center">
               <MdBorderClear size={30} className="mr-2" fill="#00000085" />

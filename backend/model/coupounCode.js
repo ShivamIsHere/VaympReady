@@ -6,7 +6,7 @@ const coupounCodeSchema = new mongoose.Schema({
         required:[true,"Please enter your coupoun code name!"],
         unique: true,
     },
-    value:{
+    percentage:{
         type: Number,
         required: true,
     },
@@ -16,12 +16,33 @@ const coupounCodeSchema = new mongoose.Schema({
     maxAmount:{
         type: Number,
     },
+    totalUsed:{
+        type: Number,
+        default:0,
+    },
+    maxProductAmount:{
+        type: Number,
+        default:0,
+    },
+    minProductAmount:{
+        type: Number,
+        default:0,
+    },
+    adminCreated:{
+    type: String,
+    required: true,
+  },
     shopId:{
      type: String,
-     required: true,
+     default:"",
+    },
+    selectedShop:{
+     type: String,
+     default:"",
     },
     selectedProduct:{
      type: String,
+     default:"",
     },
     createdAt:{
         type: Date,

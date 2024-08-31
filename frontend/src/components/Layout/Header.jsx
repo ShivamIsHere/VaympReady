@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import styles from "../../styles/styles";
-import { categoriesData, productData } from "../../static/data";
+import { categoriesData, productData,SearchRecommendation } from "../../static/data";
 import {
   AiOutlineHeart,
   AiOutlineSearch,
@@ -91,49 +91,16 @@ const Header = ({ activeHeading }) => {
   const handleSearchChange = (e) => {
     const term = e.target.value;
     setSearchTerm(term);
-
-
-
-    //     let totalCount = 0;
-    // // console.log("cart",cart)
-    //     cart.forEach(item => {
-    //       item.stock.forEach(stockItem => {
-    //         if (stockItem.isSelected) {
-    //           totalCount += 1;
-    //         }
-    //       });
-    //     });
-
-    //     console.log("totalCount",cart.length);
-
-    // console.log("allllll",term,allProducts)
-    //  const filteredProducts =
-    //       allProducts &&
-    //       allProducts.filter((product) => {
-    //         console.log("kkkk",product.occasion.toLowerCase)
-    //         let p1 =
-    //           product.name.toLowerCase().includes(term.toLowerCase()) ||
-    //           product.category.toLowerCase().includes(term.toLowerCase()) ||
-    //           product.occasion.toLowerCase().includes(term.toLowerCase()) ||
-    //           product.tags.toLowerCase().includes(term.toLowerCase());
-    //         return p1;
-    //         // return true
-    //       });
-    console.log("allllll", cart)
-
-
-    const filteredProducts =
-      allProducts &&
-      allProducts.filter((product) => {
-        let p1 =
-          product.name.toLowerCase().includes(term.toLowerCase()) ||
-          product.category.toLowerCase().includes(term.toLowerCase()) ||
-          product?.occasion?.toLowerCase().includes(term.toLowerCase()) ||
-          product.tags.toLowerCase().includes(term.toLowerCase());
-        return p1;
-      });
-    setSearchData(filteredProducts);
+  
+    const filteredRecommendations =
+      SearchRecommendation &&
+      SearchRecommendation.filter((item) =>
+        item.type.toLowerCase().includes(term.toLowerCase())
+      );
+  
+    setSearchData(filteredRecommendations);
   };
+  
   const handlemobileSearchChange = (e) => {
     const term = e.target.value;
     mobileSetSearchTerm(term);
@@ -159,6 +126,9 @@ const Header = ({ activeHeading }) => {
       window.location.reload();
     }
   };
+  
+  
+  
 
   const handleMobileSearchSubmit = (e) => {
     if (e.key === "Enter" && mobileSearchTerm) {
@@ -241,16 +211,12 @@ const Header = ({ activeHeading }) => {
         <div className={`${styles.section}`}>
           <div className="hidden 800px:h-[40px] 800px:my-[10px] 800px:flex items-center justify-between">
             <div>
-              <Link to="/">
-                <h1
-                  style={{
-                    color: "#142337",
-                    fontSize: "36px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  vaymp
-                </h1>{" "}
+            <Link to="/">
+                <img
+                  src={`${process.env.PUBLIC_URL}/vaymplogo.png`}
+                  alt="Vaymp"
+                  className="h-12 ml-2"
+                />
               </Link>
             </div>
             {/* search box */}
@@ -267,25 +233,18 @@ const Header = ({ activeHeading }) => {
                 size={30}
                 className="absolute right-2 top-1.5 cursor-pointer" onClick={handleSearchClick}
               />
-              {/* {searchData && searchData.length !== 0 ? (
-                <div className="absolute min-h-[5vh] bg-slate-50 shadow-sm-2 z-[9] p-4">
-                  {searchData &&
-                    searchData.map((i, index) => {
-                      return (
-                        <a href={`/product/${i._id}`}>
-                          <div className="w-full flex items-start-py-3">
-                            <img
-                              src={`${i.images[0]?.url}`}
-                              alt=""
-                              className="w-[40px] h-[40px] mr-[10px]"
-                            />
-                            <h1>{i.name}</h1>
-                          </div>
-                        </a>
-                      );
-                    })}
-                </div>
-              ) : null} */}
+              {searchData && searchData.length !== 0 ? (
+  <div className="absolute min-h-[5vh] bg-slate-50 shadow-sm-2 z-[9] p-4">
+    {searchData.map((i, index) => (
+      <div key={index} className="w-full py-2">
+        <a href={`/search/${i.type}`}>
+          <h1>{i.type}</h1>
+        </a>
+      </div>
+    ))}
+  </div>
+) : null}
+
             </div>
 
             <div className={`${styles.button} !bg-[#142337]`}>
@@ -469,17 +428,13 @@ const Header = ({ activeHeading }) => {
             />
           </div>
           <div>
-            <Link to="/">
-              <h1
-                style={{
-                  color: "#142337",
-                  fontSize: "44px",
-                  fontWeight: "bold",
-                }}
-              >
-                vaymp
-              </h1>
-            </Link>
+          <Link to="/">
+                <img
+                  src={`${process.env.PUBLIC_URL}/vaymplogo.png`}
+                  alt="Vaymp"
+                  className="h-11 my-1"
+                />
+              </Link>
           </div>
           <div>
             <div className="flex items-center justify-start space-x-6">

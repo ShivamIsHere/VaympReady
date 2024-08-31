@@ -4,6 +4,7 @@ import AdminDashboardSellers from "../pages/AdminDashboardSellers";
 import AdminDashboardOrders from "../pages/AdminDashboardOrders";
 import AdminDashboardProducts from "../pages/AdminDashboardProducts";
 import AdminDashboardEvents from "../pages/AdminDashboardEvents";
+import AdminDashboardCoupon from "../pages/AdminDashboardCoupon";
 import AdminDashboardWithdraw from "../pages/AdminDashboardWithdraw";
 import AdminDashboardStockNotification from "../pages/AdminDashboardStockNotification";
 import AdminDashboardAllOrders from "../pages/AdminDashboardAllOrders";
@@ -21,6 +22,7 @@ export {
   AdminDashboardEvents,
   AdminDashboardWithdraw,
   AdminDashboardAllOrders,
+  AdminDashboardCoupon,
   AdminDashboardRefund,
   AdminDashboardAllReturn,
   AdminDashboardShopIsActive,

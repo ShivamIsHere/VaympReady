@@ -470,7 +470,7 @@ const ProductDetails = ({ data }) => {
                         }}
                       >
                         <span className="text-white flex items-center font-bold">
-                          Add to Cart{" "}
+                          Add to Cart2{" "}
                           <AiOutlineShoppingCart className="ml-2" size={20} />
                         </span>
                       </div>
@@ -532,7 +532,7 @@ const ProductDetails = ({ data }) => {
                       }}
                     >
                       <span className="text-white flex items-center font-bold">
-                        Add to Cart{" "}
+                        Add to Cart3{" "}
                         <AiOutlineShoppingCart className="ml-2" size={20} />
                       </span>
                     </div>
@@ -699,7 +699,7 @@ const ProductDetailsInfo = ({
       {active === 1 ? (
         <>
           <p className="py-2 text-[16px] pb-10 whitespace-pre-line overflow-hidden break-words">
-            {data.description}
+          {data.description.replace(/\\n/g, ' ')}
           </p>
         </>
       ) : null}
