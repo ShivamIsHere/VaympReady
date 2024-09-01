@@ -15,12 +15,14 @@ export const loadUser = () => async (dispatch) => {
       payload: data.user,
     });
   } catch (error) {
+    console.log(error);  
     dispatch({
       type: "LoadUserFail",
       payload: error.response.data.message,
     });
   }
 };
+
 
 // load seller
 export const loadSeller = () => async (dispatch) => {

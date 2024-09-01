@@ -13,14 +13,18 @@ exports.isAuthenticated = catchAsyncErrors(async (req, res, next) => {
   }
 
   const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-  req.user = await User.findById(decoded.id);
 
-  if (!req.user) {
+  const user = await User.findById(decoded.id);
+
+  if (!user) {
     return next(new ErrorHandler("User not found with this token", 401));
   }
 
+  req.user = user;
   next();
 });
+
+// Middleware to check if seller is authenticated
 
 // Middleware to check if seller is authenticated
 exports.isSeller = catchAsyncErrors(async (req, res, next) => {

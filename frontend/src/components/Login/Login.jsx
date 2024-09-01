@@ -44,27 +44,31 @@ const Login = () => {
     }
   };
 
-  const handleGoogleLoginSuccess = async (response) => {
-    setLoading(true);
-    try {
-      const res = await axios.post(
-        `${server}/user/login-user`,
-        {
-          token: response.credential,
-        },
-        { withCredentials: true }
-      );
-      toast.success("Login with Google Success!", {
-        autoClose: 1000,
-      });
-      navigate("/");
-      window.location.reload(true);
-    } catch (err) {
-      toast.error("Google Login Failed!");
-      setLoading(false);
-    }
+  // const handleGoogleLoginSuccess = async (response) => {
+  //   setLoading(true);
+  //   try {
+  //     const res = await axios.post(
+  //       `${server}/authRoutes/google-login`,
+  //       {
+  //         token: response.credential,
+  //       },
+  //       { withCredentials: true }
+  //     );
+  //     toast.success("Login with Google Success!", {
+  //       autoClose: 1000,
+  //     });
+  //     navigate("/");
+  //     window.location.reload(true);
+  //   } catch (err) {
+  //     toast.error("Google Login Failed!");
+  //     setLoading(false);
+  //   }
+  // };
+  const handleGoogleLoginSuccess = () => {
+    window.location.href = 'http://localhost:8000/api/v2/authRoutes/google';
   };
-
+  
+  
   const handleInputChange = (setter) => (e) => {
     setter(e.target.value);
     setError({ message: "", field: "" });

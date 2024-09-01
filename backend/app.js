@@ -8,7 +8,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const ErrorHandler = require("./middleware/error");
 const { isAuthenticated, isSeller, isAdmin } = require("./middleware/auth");
-
+// const authRoutes = require('./routes/authRoutes'); // Adjust the path as necessary
 // Initialize Express
 const app = express();
 require('./config/passport')(passport); // Load passport configuration
@@ -75,7 +75,7 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 }
 
 // Import and use routes
-// app.use("/api/v2/auth", require("./routes/authRoutes"));  // Google OAuth routes
+app.use("/api/v2/authRoutes", require("./routes/authRoutes"));  // Google OAuth routes
 app.use("/api/v2/user", require("./controller/user"));
 app.use("/api/v2/conversation", require("./controller/conversation"));
 app.use("/api/v2/message", require("./controller/message"));

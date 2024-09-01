@@ -33,6 +33,22 @@ router.get("/logout", (req, res) => {
   res.redirect("/");
 });
 // create user
+// Route to save token
+router.post('/user/save-token', async (req, res) => {
+  const { token } = req.body;
+  if (!token) {
+    return res.status(400).json({ message: 'Token is required' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    // Your logic to find the user and update session or create session
+    res.status(200).json({ message: 'Token saved successfully' });
+  } catch (error) {
+    res.status(400).json({ message: 'Invalid token' });
+  }
+});
+
 router.post("/create-user", async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
@@ -169,7 +185,7 @@ router.get(
   isAuthenticated,
   catchAsyncErrors(async (req, res, next) => {
     const user = await User.findById(req.user.id);
-
+console.log("hello user:-",user)
     if (!user) {
       return next(new ErrorHandler("User doesn't exists", 400));
     }
