@@ -11,22 +11,74 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter your email!"],
   },
-  password: {
+  password:{
     type: String,
     minLength: [4, "Password should be greater than 4 characters"],
     select: false,
   },
-  googleId: {
-    type: String,
-    unique: true,
+  phoneNumber:{
+    type: Number,
   },
-  avatar: {
+  addresses:[
+    {
+      userName:{
+        type: String,
+      },   
+      city:{
+        type: String,
+      },
+      address1:{
+        type: String,
+      },
+      address2:{
+        type: String,
+        default:"",
+      },
+      zipCode:{
+        type: Number,
+      },
+      altphoneNumber:{
+        type: Number,
+        default:"",
+      },
+      landmark:{
+        type:String,
+        default:"",
+      },
+      state:{
+        type:String,
+        default:"",
+      },
+      phoneNumber:{
+        type:Number,
+      },
+      addressType:{
+        type: [String],
+      default: [],
+      },
+      isLastUsed: {
+        type: Boolean,
+        default: false,
+      },    
+    }
+  ],
+  role:{
+    type: String,
+    default: "user",
+  },
+  avatar:{
     public_id: {
       type: String,
+      // required: true,
     },
     url: {
       type: String,
+      // required: true,
     },
+ },
+  googleId: {
+    type: String,
+    unique: true,
   },
   createdAt: {
     type: Date,

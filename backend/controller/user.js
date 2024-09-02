@@ -26,14 +26,6 @@ router.get(
   }
 );
 
-// @desc Logout user
-// @route /auth/logout
-router.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/");
-});
-// create user
-// Route to save token
 router.post('/user/save-token', async (req, res) => {
   const { token } = req.body;
   if (!token) {

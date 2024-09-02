@@ -27,9 +27,11 @@ const ProfileSidebar = ({ setActive, active }) => {
         navigate("/login");
       })
       .catch((error) => {
-        console.log(error.response.data.message);
+        console.error("Logout Error:", error.response.data.message);
+        toast.error("Failed to log out. Please try again.");
       });
   };
+  
 
   return (
     <div className="sticky top-40  w-full bg-white shadow-sm rounded-[10px] p-10 pt-8">

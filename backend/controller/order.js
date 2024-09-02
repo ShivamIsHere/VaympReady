@@ -169,7 +169,12 @@ console.log("333333333",discount)
       for (const item of cart) {
         await updateStockAfterOrderCreation(item);
       }
+      console.log("shopId",shopId)
+      console.log("couponId",couponId)
+      console.log("discount",discount)
+      if(shopId!==""||couponId!==""||discount!==""){
       await updateBalance(shopId, couponId, discount);
+    }
       res.status(201).json({
         success: true,
         orders,
