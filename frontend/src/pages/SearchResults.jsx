@@ -84,6 +84,8 @@ const SearchResults = () => {
   const [showAllShoesSizes, setShowAllShoesSizes] = useState(false);
   const [isJeans, setIsJeans] = useState(false);
   const [isBra, setIsBra] = useState(false);
+  const [isKapra, setIsKapra] = useState(false);
+  const [isJoota, setIsJoota] = useState(false);
   const [showAllBraSizes, setShowAllBraSizes] = useState(false);
   const [showAllJeansSizes, setShowAllJeansSizes] = useState(false);
   const [showAllSubCategories, setShowAllSubCategories] = useState(false);
@@ -270,7 +272,7 @@ useEffect(() => {
       const pagesToFetch = Array.from({ length: currentPage }, (_, i) => i + 1);
       await Promise.all(pagesToFetch.map((page) => fetchFilteredProducts(page)));
     } else {
-      await fetchFilteredProducts();
+      await fetchFilteredProduct();
     }
   };
 
@@ -280,53 +282,65 @@ useEffect(() => {
 
 
 
-  useEffect(() => {
-    const clothesKeywords = [
-      "tshirts", "tshirt", "blouses", "shirts", "tank tops", "sweaters", "hoodies", "jeans", "trousers", "shorts",
-      "skirts", "leggings", "jackets", "coats", "blazers", "vests", "raincoats", "casual dresses", "formal dresses",
-      "maxi dresses", "cocktail dresses", "sundresses", "sports bras", "gym tops", "yoga pants", "track pants",
-      "running shorts", "pajamas", "robes", "sweatpants", "lounge tops", "half pants", "bras", "panties", "boxers",
-      "briefs", "undershirts", "suits", "tuxedos", "full sleeve", "half sleeve", "short sleeve", "sleeveless",
-      "modal", "linen blend", "wool blend", "poly cotton", "nylon", "viscose rayon", "cotton blend", "elastane",
-      "organic cotton", "polyester", "pure cotton", "2xs", "xs", "s", "m", "l", "xl", "2xl", "3xl", "4xl", "5xl", "6xl",
-      "7xl", "8xl", "beach wear", "casual", "formal", "lounge wear", "party", "sports", "boxy", "compression", "loose",
-      "oversized", "regular", "slim", "clothes", "shirt", "dresses", "cloths", "cloth", "kapra", "dress","underwears",
-      "salwar suits","skirt","bra","jeans","undergarments","kurtis","shocks","tops","Animal Print",
-      "Checkered","Color Block","Dyed/Ombre","Embellished","Embroidered","Ethnic Motifs","Floral Print","Geometric Print",
-      "Graphic Print","Military Camouflage","Polka Print","Printed","Self Design","Solid","Striped","Washed","Woven Design"
-    
-    ];
+useEffect(() => {
+  const clothesKeywords = [
+    "tshirts", "tshirt", "blouses", "shirts", "tank tops", "sweaters", "hoodies", "jeans", "trousers", "shorts",
+    "skirts", "leggings", "jackets", "coats", "blazers", "vests", "raincoats", "casual dresses", "formal dresses",
+    "maxi dresses", "cocktail dresses", "sundresses", "sports bras", "gym tops", "yoga pants", "track pants",
+    "running shorts", "pajamas", "robes", "sweatpants", "lounge tops", "half pants", "bras", "panties", "boxers",
+    "briefs", "undershirts", "suits", "tuxedos", "full sleeve", "half sleeve", "short sleeve", "sleeveless",
+    "modal", "linen blend", "wool blend", "poly cotton", "nylon", "viscose rayon", "cotton blend", "elastane",
+    "organic cotton", "polyester", "pure cotton", "2xs", "xs", "s", "m", "l", "xl", "2xl", "3xl", "4xl", "5xl", "6xl",
+    "7xl", "8xl", "beach wear", "casual", "formal", "lounge wear", "party", "sports", "boxy", "compression", "loose",
+    "oversized", "regular", "slim", "clothes", "shirt", "dresses", "cloths", "cloth", "kapra", "dress","underwears",
+    "salwar suits","skirt","bra","jeans","undergarments","kurtis","socks","tops","Animal Print",
+    "Checkered","Color Block","Dyed/Ombre","Embellished","Embroidered","Ethnic Motifs","Floral Print","Geometric Print",
+    "Graphic Print","Military Camouflage","Polka Print","Printed","Self Design","Solid","Striped","Washed","Woven Design","Sherwan","Night Suit","Half pant","Full Pant","Churidar","Co-ords","Coords","Palazzos","Capris","Tucker","Three quater","Jeggings","Lingerie","Lehenga choli","Night dress","Long Kurti","Short Kurti","Bandi","Nehru Jacket","Saree","Shawl","Boxer","Track suit","Dhotis","Dupatta","Lungi","Sweatshirts","Thermals","Thermal tops","Thermal bottom","Thermal set","Inner","Dungarees","Harem pants","patiala","stockings","tights","Cargo","Body Suits","Shrug","Long coats","Frocks","one piece","body cons","Crop tops","Gowns","Hot pants","Stoles","Mufflers","Faded","No Fade","light Fade","Heavy Fade","Collar Neck" , "Round Neck", "V Neck", "Turtle Neck", "Zip Neck", "High Neck", "Hooded Neck", "Key Hole Neck", "Mandarin Collar", "Peter Pan Collar", "Boat Neck", "RacerBack", "Cowl Neck", "Scoop Neck", "Shawl Neck", "Square Neck", "Stylished Neck", "Halter Neck", "Crew Neck", "Henley Neck", "Polo collar", "Collar less", "Sweetheart neck", "plunge neck", "strapless", "Lycra", "Linen Blend", "Wool Blend", "Poly Cotton", "Nylon", "Viscose Rayon", "Cotton Blend", "Denim", "Organic Cotton", "Polyester", "Pure Cotton", "Modal", "Elastane", "Cotton", "Synthetic", "Silk", "Satin", "Canvas", "Leather", "Khaki"
+  
+  ];
 
-    const shoesKeywords = [
-      "shoe", "sneaker", "boot", "heel", "sandal", "flip-flop", "loafer", "slipper", "casual", "formal", "sports",
-      "party", "outdoor", "work", "beach", "hiking", "wedding", "everyday", "flip flops", "slide sandals",
-      "house slippers", "thong slippers", "gladiator sandals", "sport sandals", "wedge sandals", "heeled sandals",
-      "flat sandals", "sneakers", "running shoes", "loafers", "oxfords", "brogues", "boots", "heels", "flats",
-      "moccasins", "derbies", "espadrilles", "shoes", "crocs", "3", "3.5", "4", "4.5", "5", "5.5", "6", "6.5", "7",
-      "7.5", "8", "8.5", "9", "9.5", "10", "10.5", "11", "11.5", "12", "12.5", "13", "13.5", "14", "14.5", "15", "15.5",
-      "16", "joota", "juta", "jhoota", "jutta", "sliper", "slipers","shoes"
-    ];
+  const shoesKeywords = [
+    "shoe", "sneaker", "boot", "heel", "sandal", "flip-flop", "loafer", "slipper", "casual", "formal", "sports",
+    "party", "outdoor", "work", "beach", "hiking", "wedding", "everyday", "flip flops", "slide sandals",
+    "house slippers", "thong slippers", "gladiator sandals", "sport sandals", "wedge sandals", "heeled sandals",
+    "flat sandals", "sneakers", "running shoes", "loafers", "oxfords", "brogues", "boots", "heels", "flats",
+    "moccasins", "derbies", "espadrilles", "shoes", "crocs", "3", "3.5", "4", "4.5", "5", "5.5", "6", "6.5", "7",
+    "7.5", "8", "8.5", "9", "9.5", "10", "10.5", "11", "11.5", "12", "12.5", "13", "13.5", "14", "14.5", "15", "15.5",
+    "16", "joota", "juta", "jhoota", "jutta", "sliper", "slipers","shoes","footwear","leathershoes"
+  ];
 
-    const stopWords = [
-      "for", "in", "the", "and", "a", "of", "to", "is", "on", "at", "by", "with", "from", "as", "about", "into",
-      "through", "during", "before", "after", "over", "between", "under", "above", "below", "up", "down", "out", "off",
-      "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any",
-      "both", "each", "few", "more", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than",
-      "too", "very", "s", "t", "can", "will", "just", "don", "should", "now"
-    ];
+  const stopWords = [
+    "for", "in", "the", "and", "a", "of", "to", "is", "on", "at", "by", "with", "from", "as", "about", "into",
+    "through", "during", "before", "after", "over", "between", "under", "above", "below", "up", "down", "out", "off",
+    "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any",
+    "both", "each", "few", "more", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than",
+    "too", "very", "s", "t", "can", "will", "just", "don", "should", "now"
+  ];
 
-    const queryWords = query.toLowerCase().split(" ").filter(word => !stopWords.includes(word));
-    const Bra = queryWords.some(word => ["bra", "bras", "bra's"].includes(word));
+  const queryWords = query.toLowerCase().split(" ").filter(word => !stopWords.includes(word));
+  const Bra = queryWords.some(word => ["bra", "bras", "bra's"].includes(word));
 
-    if (Bra) {
-      setIsBra(true)
-      console.log("The query includes a term related to 'bra'.");
-    }
-    const Jeans = queryWords.some(word => ["jeans", "jean", "jean's"].includes(word));
+  if (Bra) {
+    setIsBra(true)
+    console.log("The query includes a term related to 'bra'.");
+  }
+  const Jeans = queryWords.some(word => ["jeans", "jean", "jean's"].includes(word));
 
 if (Jeans) {
-  setIsJeans(true)
-  console.log("The query includes a term related to 'Jeans'.");
+setIsJeans(true)
+console.log("The query includes a term related to 'Jeans'.");
+}
+const kapra = queryWords.some(word => ["kapra", "cloths", "cloth's","clothes"].includes(word));
+
+if (kapra) {
+setIsKapra(true)
+console.log("The query includes a term related to 'Jeans'.");
+}
+const Joota = queryWords.some(word => ["joota", "juta", "Footwear's","footwear","footwears","footwears'","footwear'"].includes(word));
+
+if (Joota) {
+setIsJoota(true)
+console.log("The query includes a term related to 'Jeans'.");
 }
     const isClothesQuery = queryWords.some(word => clothesKeywords.some(keyword => keyword.includes(word)));
     const isShoesQuery = queryWords.some(word => shoesKeywords.some(keyword => keyword.includes(word)));
@@ -639,7 +653,7 @@ if (Jeans) {
       <div className="flex flex-col lg:flex-row">
           {/* Add your filters and sorting here */}
         </div>
-        {isValid===true&&filteredDatas.length !== 0&&<div className="lg:hidden sticky z-20">
+        {isValid===true&&<div className="lg:hidden sticky z-10">
               {/* <div className="w-1/2 p-0 m-0">
                 <button
                   className="w-full bg-blue-100 flex items-center justify-center font-bold text-lg tracking-wider border-t-1 border-b-2 text-gray-700 p-3 rounded-lg mb-2 border-gray-500 transition duration-300 ease-in-out md:hidden"
@@ -679,13 +693,13 @@ if (Jeans) {
             {isValid===true&&filteredDatas.length !== 0&&
               <div>
   <div
-    className="hidden lg:flex fixed right-5 bottom-24 mb-2 p-4 bg-red-500 rounded-full text-white cursor-pointer"
+    className="hidden lg:flex fixed right-5 bottom-24 mb-2 p-4 bg-red-500 rounded-full text-white cursor-pointer"style={{ zIndex: 1 }}
     onClick={toggleDrawer}
   >
     <FaFilter size={25} />
   </div>
   <div
-    className="hidden lg:flex fixed right-5 bottom-10 p-4 bg-red-500 rounded-full text-white cursor-pointer"
+    className="hidden lg:flex fixed right-5 bottom-10 p-4 bg-red-500 rounded-full text-white cursor-pointer"style={{ zIndex: 1 }} 
     onClick={toggleSortDrawer}
   >
     <BiSortAlt2 size={25} />
@@ -726,9 +740,9 @@ if (Jeans) {
                     Color
                     {dropdowns.colors ? <AiOutlineCaretUp /> : <AiOutlineCaretDown />}
                   </h3>
-                  {dropdowns.colors &&
+                  {dropdowns.colors && 
                     visibleColors.map((c) => (
-                      <label key={c.id} className="block ml-2">
+                      <label key={c.id} className="block ml-2 my-2">
                         <input
                           type="checkbox"
                           value={c.name}
@@ -758,7 +772,7 @@ if (Jeans) {
                   </h3>
                   {dropdowns.shoeSize &&
                     visibleShoesSizes.map((s) => (
-                      <label key={s.id} className="block ml-2">
+                      <label key={s.id} className="block ml-2 my-2">
                         <input
                           type="checkbox"
                           value={s.type}
@@ -850,7 +864,7 @@ if (Jeans) {
                   </h3>
                   {dropdowns.sizes &&
                     visibleSizes.map((s) => (
-                      <label key={s.id} className="block ml-2 ">
+                      <label key={s.id} className="block ml-2 my-2">
                         <input
                           type="checkbox"
                           value={s.type}
@@ -870,8 +884,7 @@ if (Jeans) {
                   )}
                 </div>}
                 {/* SubCategory Filter */}
-                {isClothes===true&&<div className="mb-4">
-                  <h3
+                {isClothes===true&&isKapra===true&&<div className="mb-4">                  <h3
                     className="cursor-pointer flex items-center justify-between border-t-1 border-b-2 border-gray-300 text-gray-700 p-3 rounded-lg mb-2 hover:border-gray-500 transition duration-300 ease-in-out"
                     onClick={() => toggleDropdown("subCategorys")}
                   >
@@ -899,7 +912,28 @@ if (Jeans) {
                     </button>
                   )}
                 </div>}
-                {isFootWear===true&&<div className="mb-4">
+                {isClothes===true&&isJeans!=true&&<div className="mb-4">
+                  <h3
+                    className="cursor-pointer flex items-center justify-between border-t-1 border-b-2 border-gray-300 text-gray-700 p-3 rounded-lg mb-2 hover:border-gray-500 transition duration-300 ease-in-out"
+                    onClick={() => toggleDropdown("patterns")}
+                  >
+                    Pattern
+                    {dropdowns.patterns ? <AiOutlineCaretUp /> : <AiOutlineCaretDown />}
+                  </h3>
+                  {dropdowns.patterns &&
+                    pattern.map((f) => (
+                      <label key={f.id} className="block ml-2 my-2">
+                        <input
+                          type="checkbox"
+                          value={f.type}
+                          checked={filters.patterns.includes(f.type)}
+                          onChange={() => handleCheckboxChange("patterns", f.type)}
+                        />
+                        {f.type}
+                      </label>
+                    ))}
+                </div>}
+                {isFootWear===true&&isJoota===true&&<div className="mb-4">
                   <h3
                     className="cursor-pointer flex items-center justify-between border-t-1 border-b-2 border-gray-300 text-gray-700 p-3 rounded-lg mb-2 hover:border-gray-500 transition duration-300 ease-in-out"
                     onClick={() => toggleDropdown("footwearSubCategorie")}
@@ -931,7 +965,7 @@ if (Jeans) {
 
                 
                 {/* Neck Type Filter */}
-                {isClothes===true&&<div className="mb-4">
+                {isClothes===true&&isBra!=true&&isJeans!=true&&<div className="mb-4">
                   <h3
                     className="cursor-pointer flex items-center justify-between border-t-1 border-b-2 border-gray-300 text-gray-700 p-3 rounded-lg mb-2 hover:border-gray-500 transition duration-300 ease-in-out"
                     onClick={() => setDropdowns(prev => ({ ...prev, neckTypes: !prev.neckTypes }))}
@@ -982,7 +1016,7 @@ if (Jeans) {
                       </label>
                     ))}
                 </div>}
-                {isClothes===true&&<div className="mb-4">
+                {isClothes===true&&isJeans===true&&<div className="mb-4">
                   <h3
                     className="cursor-pointer flex items-center justify-between border-t-1 border-b-2 border-gray-300 text-gray-700 p-3 rounded-lg mb-2 hover:border-gray-500 transition duration-300 ease-in-out"
                     onClick={() => toggleDropdown("patterns")}
@@ -1069,7 +1103,7 @@ if (Jeans) {
                     ))}
                 </div>}
                 {/* Sleeve Type Filter */}
-                {isClothes===true&&<div className="mb-4">
+                {isClothes===true&&isBra!=true&&isJeans!=true&&<div className="mb-4">
                   <h3
                     className="cursor-pointer flex items-center justify-between border-t-1 border-b-2 border-gray-300 text-gray-700 p-3 rounded-lg mb-2 hover:border-gray-500 transition duration-300 ease-in-out"
                     onClick={() => toggleDropdown("sleeveTypes")}
@@ -1198,7 +1232,7 @@ if (Jeans) {
             </div>
             </>
             )}
-            {!isLoading && filteredDatas.length === 0 ?(
+            {filteredDatas.length === 0 ? (
               // <div className="text-center text-gray-500 mt-4">No products found</div>
               <div className="bg-zinc-100 hidden lg:flex justify-center items-center">
 <div className="flex items-center justify-center min-h-[80vh] bg-gradient-to-r from-blue-100 to-blue-300 p-6 sm:p-12">
@@ -1230,7 +1264,7 @@ if (Jeans) {
 
             {/* Loader for Medium and Small Screens */}
             <div ref={loadMoreRef} className="mt-4 flex justify-center lg:hidden">
-              {isLoading && <ClipLoader
+            {isLoading===true && <ClipLoader
                   color="#2874F0"
                   size={55}
                   // loading={isLoading}

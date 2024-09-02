@@ -553,6 +553,93 @@ export const navItems = [
       type: "Modal",
     }
   ];
+
+  export const ratings = [
+    {
+      id: 1,
+      type: "3",
+    },
+    {
+      id: 2,
+      type: "3.1",
+    },
+    {
+      id: 3,
+      type: "3.2",
+    },
+    {
+      id: 4,
+      type: "3.3",
+    },
+    {
+      id: 5,
+      type: "3.4",
+    },
+    {
+      id: 6,
+      type: "3.5",
+    },
+    {
+      id: 7,
+      type: "3.6",
+    },
+    {
+      id: 8,
+      type: "3.7",
+    },
+    {
+      id: 9,
+      type: "3.8",
+    },
+    {
+      id: 10,
+      type: "3.9",
+    },
+    {
+      id: 11,
+      type: "4",
+    },
+    {
+      id: 12,
+      type: "4.1",
+    },
+    {
+      id: 13,
+      type: "4.2",
+    },
+    {
+      id: 14,
+      type: "4.3",
+    },
+    {
+      id: 15,
+      type: "4.4",
+    },
+    {
+      id: 16,
+      type: "4.5",
+    },
+    {
+      id: 17,
+      type: "4.6",
+    },
+    {
+      id: 18,
+      type: "4.7",
+    },
+    {
+      id: 19,
+      type: "4.8",
+    },
+    {
+      id: 20,
+      type: "4.9",
+    },
+    {
+      id: 21,
+      type: "5",
+    }
+  ];
   export const occasion = [
     {
       id: 1,

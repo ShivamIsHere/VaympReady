@@ -11,7 +11,7 @@ const { isAuthenticated, isSeller, isAdmin } = require("./middleware/auth");
 // const authRoutes = require('./routes/authRoutes'); // Adjust the path as necessary
 // Initialize Express
 const app = express();
-require('./config/passport')(passport); // Load passport configuration
+require('./controller/passport')(passport); // Load passport configuration
 const dotenv=require('dotenv');
 // CORS configuration
 const corsOptions = {

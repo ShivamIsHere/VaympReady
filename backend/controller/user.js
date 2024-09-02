@@ -10,7 +10,7 @@ const sendToken = require("../utils/jwtToken");
 const crypto = require("crypto");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
 const passport = require('passport');
-require('../config/passport')(passport); // Ensure this path is correct
+require('./passport')(passport); // Ensure this path is correct
 
 
 
