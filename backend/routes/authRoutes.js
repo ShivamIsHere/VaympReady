@@ -19,6 +19,7 @@ router.get('/google/callback',
         sameSite: "None",
         secure: true,
       };
+      
 
       // Set the token in cookies
       res.cookie("token", token, options);

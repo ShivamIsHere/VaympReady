@@ -8,6 +8,7 @@ import { server } from "../../server";
 import { toast } from "react-toastify";
 import { FidgetSpinner } from "react-loader-spinner";
 import { FaUserAlt } from "react-icons/fa";
+import SignUpPage from "./SignUpPage";
 
 const Singup = () => {
   const [email, setEmail] = useState("");
@@ -213,6 +214,7 @@ const Singup = () => {
                 )}
               </div>
             </div>
+            <SignUpPage/>
             <div className={`${styles.noramlFlex} w-full`}>
               <h4>Already have an account?</h4>
               <Link to="/login" className="text-blue-600 pl-2 font-bold ">

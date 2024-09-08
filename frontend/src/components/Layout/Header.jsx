@@ -11,7 +11,7 @@ import { FiChevronDown } from "react-icons/fi";
 import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
-import { BiMenuAltLeft } from "react-icons/bi";
+import { BiMenuAltLeft, BiMenu } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import DropDown from "./DropDown";
 import Navbar from "./Navbar";
@@ -48,6 +48,14 @@ const Header = ({ activeHeading }) => {
     if (!name) return '';
     return name.charAt(0).toUpperCase();
   }
+  const handleOpenClick = () => {
+    setOpen(true);
+    console.log('Open state:', true); // This will log 'true' when you set it to true
+  };
+  const handleCloseClick = () => {
+    setOpen(false);
+    console.log('Menu closed:', false); // Confirm the state change
+  };
   const isActive = (path) => location.pathname === path;
   const [totalCount, setTotalCount] = useState(0);
   useEffect(() => {
@@ -163,13 +171,14 @@ const Header = ({ activeHeading }) => {
         setOpen(false);
       }
     };
-    if (open) {
-      document.addEventListener("click", handleClickOutside);
-    } else {
-      document.removeEventListener("click", handleClickOutside);
-    }
+    // if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    // } 
+    // else {
+    //   document.removeEventListener("mousedown", handleClickOutside);
+    // }
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [open]);
   useEffect(() => {
@@ -421,10 +430,10 @@ const Header = ({ activeHeading }) => {
       >
         <div className="w-full flex items-center justify-between">
           <div>
-            <BiMenuAltLeft
+            <BiMenu
               size={40}
               className="ml-4"
-              onClick={() => setOpen(true)}
+              onClick={handleOpenClick}
             />
           </div>
           <div>
@@ -462,9 +471,9 @@ const Header = ({ activeHeading }) => {
         </div>
 
         {/* header sidebar */}
-        {open && (
+        {open===true && (
           <div
-            className={`fixed w-full bg-[#0000005f] z-20 h-full top-0 left-0`}
+            className={`fixed w-full bg-[#0000005f] z-50 h-full top-0 left-0`}
           >
             <div className="fixed w-[70%] bg-[#fff] h-screen top-0 left-0 z-30 overflow-y-scroll header-sidebar">
               <div className="w-full justify-between flex pr-3">
@@ -482,7 +491,7 @@ const Header = ({ activeHeading }) => {
                 <RxCross1
                   size={30}
                   className="ml-4 mt-5"
-                  onClick={() => setOpen(false)}
+                  onClick={handleCloseClick}
                 />
               </div>
 

@@ -1,7 +1,7 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const jwt = require('jsonwebtoken');
 const User = require('../model/user');
-require('dotenv').config({ path: '/config/.env' });
+// require('dotenv').config({ path: '/config/.env' });
 
 module.exports = function (passport) {
   passport.use(

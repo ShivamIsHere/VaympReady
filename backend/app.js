@@ -16,9 +16,9 @@ const dotenv=require('dotenv');
 // CORS configuration
 const corsOptions = {
   origin: ['http://localhost:3000'], // Allowed origin
-  credentials: true, // Allow credentials (cookies)
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
+  credentials: true, // Allow credentials (cookies)
 };
 
 app.use(cors(corsOptions));
