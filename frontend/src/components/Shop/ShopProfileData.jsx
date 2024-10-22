@@ -10,6 +10,7 @@ import { FaFilter } from "react-icons/fa";
 import { BiSortAlt2 } from 'react-icons/bi';
 import { AiOutlineClose } from "react-icons/ai";
 import BasicPagination from "../../pages/BasicPagination";
+import Loader from "../Layout/Loader";
 
 const ShopProfileData = ({ isOwner }) => {
   const { events } = useSelector((state) => state.events);
@@ -31,11 +32,18 @@ const ShopProfileData = ({ isOwner }) => {
 
 console.log("11111111",totalPage)
 
-  useEffect(() => {
-    // This will be called every time the query string changes
-        dispatch(getAllEventsShop(id));
-  }, [dispatch, id]);
-  
+  const [isLoading, setIsLoading] = useState(false);
+
+useEffect(() => {
+  setIsLoading(true);
+  dispatch(getAllProductsShop(id)).then(() => {
+  setIsLoading(false);
+  });
+}, [dispatch, id]);
+useEffect(() => {
+  // This will be called every time the query string changes
+      dispatch(getAllEventsShop(id));
+}, [dispatch, id]);
   useEffect(() => {
     console.log('Product Data:', product); // Log the product data
     console.log('Product Data111111111:', products); // Log the product data
@@ -285,21 +293,37 @@ console.log("11111111",totalPage)
 
       <br />
 
-      {active === 1 && <div>
+      {active === 1 && (
+  <div>
+    {/* Loader will display when products are being fetched */}
+    {isLoading ? (
+      <Loader />
+    ) : (
+      <div>
         <div className="grid grid-cols-2 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-3 lg:gap-[25px] xl:grid-cols-4 xl:gap-[20px] mb-4 border-0">
-          {products &&
-          products
-            .filter(product => product.shop.shopIsActive === false)
+          {products && products
+            .filter((product) => product.shop.shopIsActive === false)
             .map((i, index) => (
               <ProductCard data={i} key={index} isShop={true} />
-            ))}
-            
-        </div>
-        <div className="mb-14 sm:mb-0 flex justify-center">
-        <BasicPagination count={totalPages} page={currentPage} onChange={handlePageChange} />
+            ))
+          }
         </div>
 
-      </div>}
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mb-14 sm:mb-0 flex justify-center">
+            <BasicPagination
+              count={totalPages}
+              page={currentPage}
+              onChange={handlePageChange}
+            />
+          </div>
+        )}
+      </div>
+    )}
+  </div>
+)}
+
 
       {active === 2 && (
         <div className="w-full">

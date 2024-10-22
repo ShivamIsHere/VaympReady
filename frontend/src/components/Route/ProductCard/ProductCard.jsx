@@ -70,7 +70,7 @@ const ProductCard = ({ data, isEvent }) => {
 
   return (
     <div >
-      <div className="w-full h-[360px] bg-white rounded-lg shadow-sm p-3 relative cursor-pointer"
+      <div className="w-[240px] h-[450px] bg-white rounded-lg shadow-sm p-3 relative cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       >
@@ -83,36 +83,37 @@ const ProductCard = ({ data, isEvent }) => {
           }`}
         >
           {isHovered ? (
-          <Carousel
-            showArrows={false}
-            showStatus={false}
-            showIndicators={false}
-            infiniteLoop
-            autoPlay
-            interval={2000}
-            stopOnHover={false}
-            showThumbs={false}
-          >
-            {data.images.map((image, index) => (
-              <div key={index}>
-                <img
-                  src={image.url}
-                  alt=""
-                  className="w-full h-[240px] object-contain"
-                />
-              </div>
-            ))}
-          </Carousel>
-        ) : (
-          <img
-            src={`${data.images && data.images[0]?.url}`}
-            alt=""
-            className="w-full h-[240px] object-contain"
-          />
-        )}
+  <Carousel
+    showArrows={false}
+    showStatus={false}
+    showIndicators={false}
+    infiniteLoop
+    autoPlay
+    interval={2000}
+    stopOnHover={false}
+    showThumbs={false}
+  >
+    {data.images.map((image, index) => (
+      <div key={index}>
+        <img
+          src={image.url}
+          alt=""
+          className="w-[300px] h-[600px] object-contain md:w-[200px] md:h-[200px]"
+        />
+      </div>
+    ))}
+  </Carousel>
+) : (
+  <img
+    src={`${data.images && data.images[0]?.url}`}
+    alt=""
+    className="w-[300px] h-[600px] object-contain md:w-[200px] md:h-[200px]"
+  />
+)}
+
         </a>
         <Link to={`/shop/preview/${data?.shop._id}`}>
-          <h5 className={`${styles.shop_name} mt-0 -mb-4 `}>{data.shop.name}</h5>
+          <h5 className={`${styles.shop_name} mt-0 -mb-4 block truncate`}>{data.shop.name}</h5>
         </Link>
         <Link
           to={`${

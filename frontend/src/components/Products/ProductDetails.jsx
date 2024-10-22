@@ -28,6 +28,18 @@ import Cart from "../cart/Cart";
 import { BsHandbag } from "react-icons/bs";
 import { IoShareSocialOutline } from "react-icons/io5";
 // import { BsSortNumericDownAlt } from "react-icons/bs";
+import { GiThermometerScale } from "react-icons/gi";
+import { RxCross1 } from "react-icons/rx";
+import MenUpperSizeChart from "./MenUpperSizeChart";
+import MenLowerSizeChart from "./MenLowerSizeChart";
+import WomenUpperSizeChart from "./WomenUpperSizeChart";
+import WomenLowerSizeChart from "./WomenLowerSizeChart";
+import MenUnderWear from "./MenUnderWear";
+import WomenVest from "./WomenVest";
+import MenVest from "./MenVest";
+import WomenUnderWear from "./WomenUnderWear";
+import MenLowerHalfPant from "./MenLowerHalfPant";
+import MenShoes from "./MenShoes";
 
 const ProductDetails = ({ data }) => {
   const [openCart, setOpenCart] = useState(false);
@@ -43,8 +55,17 @@ const ProductDetails = ({ data }) => {
   const [showDescription, setShowDescription] = useState(false);
   const [a, seta] = useState(0);
   const sectionRef = useRef(null)
+  const [showSizeChart, setShowSizeChart] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-
+  // Handler to toggle the visibility of SizeChart
+  const handleClick = () => {
+    setShowSizeChart(!showSizeChart);
+    console.log("1111",showSizeChart)
+  };
+  const closeModal = () => {
+    setShowSizeChart(false);
+  };
   console.log("ddddddddddddd", select)
   const handleMouseEnter = () => {
     setShowDescription(true);
@@ -73,7 +94,9 @@ const ProductDetails = ({ data }) => {
   //   setadminuser(res5.data.user)
   // },[])
   useEffect(() => {
+    setIsLoading(true);
     dispatch(getAllProductsShop(data && data?.shop._id));
+    setIsLoading(false);
     if (wishlist && wishlist.find((i) => i._id === data?._id)) {
       setClick(true);
     } else {
@@ -198,7 +221,6 @@ const ProductDetails = ({ data }) => {
       }
     }
   };
-
   const addToCartHandler = async (id, selectedSize, count) => {
     console.log("mycart777", id);
   };
@@ -243,7 +265,7 @@ const ProductDetails = ({ data }) => {
       toast.error("Please login to create a conversation");
     }
   };
-
+console.log("4444444",data?.subCategory)
   return (
     <div className="bg-white">
       {data ? (
@@ -303,7 +325,7 @@ const ProductDetails = ({ data }) => {
 
                   <IoShareSocialOutline
                     size={30}
-                    className="text-gray-600 pt-1"
+                    className="text-gray-600 pt-1 mt-2"
                     title="Share this product"
                     onClick={copyToClipboard}
                   />
@@ -402,9 +424,22 @@ const ProductDetails = ({ data }) => {
                       {data.reviews.length} reviews
                     </span>
                   </div>
-                  <div className="inline-flex rounded-full bg-blue-100 px-3 py-1 text-sm mt-2" style={{ fontFamily: 'Roboto, sans-serif', color: 'gray' }}>
-                    Free Delivery
-                  </div>
+                  <div className="flex flex-wrap gap-2 mt-4">
+  <div className="inline-flex items-center rounded-full bg-blue-100 px-4 py-2 text-sm font-medium text-blue-800 shadow-sm">
+    Try And Buy
+  </div>
+  <div className="inline-flex items-center rounded-full bg-blue-100 px-4 py-2 text-sm font-medium text-blue-800 shadow-sm">
+    Delivers in 90mins
+  </div>
+  <div className="inline-flex items-center rounded-full bg-blue-100 px-4 py-2 text-sm font-medium text-blue-800 shadow-sm">
+    Free Delivery
+  </div>
+  <div className="inline-flex items-center rounded-full bg-blue-100 px-4 py-2 text-sm font-medium text-blue-800 shadow-sm">
+    Hassle-Free Return
+  </div>
+  
+</div>
+
                 </div>
                 {/* select size  */}
                 <div className="flex items-center pt-8">
@@ -416,7 +451,239 @@ const ProductDetails = ({ data }) => {
                       >
                         Select Size
                       </label>
-                      <div className="flex flex-wrap mt-8">
+                      {(data?.category === "Footwear" ||
+  data?.subCategory.includes("T-shirts") ||  
+  data?.subCategory.includes("Shirts") ||  
+  data?.subCategory.includes("Jeans") ||  
+  data?.subCategory.includes("Tops") ||  
+  data?.subCategory.includes("Trousers") ||  
+  data?.subCategory.includes("Shorts") ||  
+  data?.subCategory.includes("Kurta") ||  
+  data?.subCategory.includes("Sweaters") ||  
+  data?.subCategory.includes("Hoodies") ||  
+  data?.subCategory.includes("Skirts") ||  
+  data?.subCategory.includes("Leggings") ||  
+  data?.subCategory.includes("Jackets") ||  
+  data?.subCategory.includes("Coats") ||  
+  data?.subCategory.includes("Blazers") ||  
+  data?.subCategory.includes("Vests") ||  
+  data?.subCategory.includes("Maxi dresses") ||  
+  data?.subCategory.includes("Cocktail dresses") ||  
+  data?.subCategory.includes("Sundresses") ||  
+  data?.subCategory.includes("Sports bras") ||  
+  data?.subCategory.includes("Gym tops") ||  
+  data?.subCategory.includes("Yoga pants") ||  
+  data?.subCategory.includes("Track pants") ||  
+  data?.subCategory.includes("Running shorts") ||  
+  data?.subCategory.includes("Pajamas") ||  
+  data?.subCategory.includes("Robes") ||  
+  data?.subCategory.includes("Sweatpants") ||  
+  data?.subCategory.includes("Lounge tops") ||  
+  data?.subCategory.includes("Half Pants") ||  
+  data?.subCategory.includes("Bras") ||  
+  data?.subCategory.includes("Panties") ||  
+  data?.subCategory.includes("Boxers") ||  
+  data?.subCategory.includes("Briefs") ||  
+  data?.subCategory.includes("Undershirts") ||  
+  data?.subCategory.includes("Suits") ||  
+  data?.subCategory.includes("Tuxedos") ||  
+  data?.subCategory.includes("Tank tops") ||  
+  data?.subCategory.includes("Blouses") ||  
+  data?.subCategory.includes("Undergarments") ||  
+  data?.subCategory.includes("Kurtis") ||  
+  data?.subCategory.includes("Night Suit") ||  
+  data?.subCategory.includes("Full Pants") ||  
+  data?.subCategory.includes("Co-ords") ||  
+  data?.subCategory.includes("Coords") ||  
+  data?.subCategory.includes("Palazzos") ||  
+  data?.subCategory.includes("Capris") ||  
+  data?.subCategory.includes("Body Tuckers") ||  
+  data?.subCategory.includes("Three-quarter") ||  
+  data?.subCategory.includes("Jeggings") ||  
+  data?.subCategory.includes("Lingerie") ||  
+  data?.subCategory.includes("Short Kurtis") ||  
+  data?.subCategory.includes("Bandis") ||  
+  data?.subCategory.includes("Nehru Jackets") ||  
+  data?.subCategory.includes("Track suits") ||  
+  data?.subCategory.includes("Lungis") ||  
+  data?.subCategory.includes("Sweatshirts") ||  
+  data?.subCategory.includes("Thermals") ||  
+  data?.subCategory.includes("Thermal tops") ||  
+  data?.subCategory.includes("Thermal bottoms") ||  
+  data?.subCategory.includes("Thermal set") ||  
+  data?.subCategory.includes("Dungarees") ||  
+  data?.subCategory.includes("Harem pants") ||  
+  data?.subCategory.includes("Patiala") ||  
+  data?.subCategory.includes("Stockings") ||  
+  data?.subCategory.includes("Tights") ||  
+  data?.subCategory.includes("Cargo") ||  
+  data?.subCategory.includes("Body Suits") ||  
+  data?.subCategory.includes("One piece") ||  
+  data?.subCategory.includes("Body cons") ||  
+  data?.subCategory.includes("Crop tops") ||  
+  data?.subCategory.includes("Gowns") ||  
+  data?.subCategory.includes("Hot pants")) && (
+  <div
+    className="text-right font-semibold text-gray-800 text-lg lg:text-xl -mt-9 flex justify-end items-center cursor-pointer"
+    onClick={handleClick}
+  >
+    <span className="transform rotate-90">
+      <GiThermometerScale size={48} />
+    </span>
+    Size Chart
+  </div>
+)}
+
+      {( 
+  (data?.subCategory.includes("Jeans") ||
+   data?.subCategory.includes("Trousers") ||
+   data?.subCategory.includes("Cargo") ||
+   data?.subCategory.includes("Full Pants") ||
+   data?.subCategory.includes("Harem pants") ||
+   data?.subCategory.includes("Trousers") ||
+   data?.subCategory.includes("Thermals") ||
+   data?.subCategory.includes("Thermal bottoms") ||
+   data?.subCategory.includes("Track pants") ||
+   data?.subCategory.includes("Sweatpants"))
+   && 
+  (data?.gender.includes("Men") || data?.gender.includes("Unisex"))
+) 
+&& showSizeChart && (
+  <MenLowerSizeChart onClose={closeModal} />
+)}
+
+{(
+  (data?.subCategory.includes("Shirts") ||
+   data?.subCategory.includes("Tuxedos") ||
+   data?.subCategory.includes("T-shirts") ||
+   data?.subCategory.includes("Bandis") ||
+   data?.subCategory.includes("Nehru Jackets") ||
+   data?.subCategory.includes("Inners") ||
+   data?.subCategory.includes("Track suits") ||
+   data?.subCategory.includes("Kurta") ||
+   data?.subCategory.includes("Sweaters") ||
+   data?.subCategory.includes("Hoodies") ||
+   data?.subCategory.includes("Jackets") ||
+   data?.subCategory.includes("Coats") ||
+   data?.subCategory.includes("Blazers")) &&
+  (data?.gender.includes("Men") || data?.gender.includes("Unisex"))
+) && showSizeChart && (
+  <MenUpperSizeChart onClose={closeModal} />
+)}
+
+{(
+  (data?.subCategory.includes("tops") ||
+   data?.subCategory.includes("Shirts") ||
+   data?.subCategory.includes("Thermal tops") ||
+   data?.subCategory.includes("Crop tops") ||
+   data?.subCategory.includes("Gowns") ||
+   data?.subCategory.includes("Inners") ||
+   data?.subCategory.includes("Body cons") ||
+   data?.subCategory.includes("One piece") ||
+   data?.subCategory.includes("Frocks") ||
+   data?.subCategory.includes("Tank tops") ||
+   data?.subCategory.includes("Coords") ||
+   data?.subCategory.includes("Short Kurtis") ||
+   data?.subCategory.includes("Night Suit") ||
+   data?.subCategory.includes("Co-ords") ||
+   data?.subCategory.includes("T-shirts") ||
+   data?.subCategory.includes("Sweaters") ||
+   data?.subCategory.includes("Hoodies") ||
+   data?.subCategory.includes("Jackets") ||
+   data?.subCategory.includes("Coats") ||
+   data?.subCategory.includes("Blazers") ||
+   data?.subCategory.includes("Maxi dresses") ||
+   data?.subCategory.includes("Sundresses") ||
+   data?.subCategory.includes("Gym Tops") ||
+   data?.subCategory.includes("Kurtis")) &&
+  data?.gender.includes("Women")
+) && showSizeChart && (
+  <WomenUpperSizeChart onClose={closeModal} />
+)}
+
+{(
+  (data?.subCategory.includes("Jeans") ||
+   data?.subCategory.includes("Trousers") ||
+   data?.subCategory.includes("Churidar") ||
+   data?.subCategory.includes("Palazzos") ||
+   data?.subCategory.includes("Thermal bottoms") ||
+   data?.subCategory.includes("Hot pants") ||
+   data?.subCategory.includes("Tights") ||
+   data?.subCategory.includes("Cargo") ||
+   data?.subCategory.includes("Patiala") ||
+   data?.subCategory.includes("Stockings") ||
+   data?.subCategory.includes("Harem pants") ||
+   data?.subCategory.includes("Dungarees") ||
+   data?.subCategory.includes("Three-quarter") ||
+   data?.subCategory.includes("Jeggings") ||
+   data?.subCategory.includes("Shorts") ||
+   data?.subCategory.includes("Body Tuckers") ||
+   data?.subCategory.includes("Yoga pants") ||
+   data?.subCategory.includes("Track pants") ||
+   data?.subCategory.includes("Running shorts") ||
+   data?.subCategory.includes("Sweatpants") ||
+   data?.subCategory.includes("Half pants") ||
+   data?.subCategory.includes("Boxers") ||
+   data?.subCategory.includes("Leggings")) &&
+  data?.gender.includes("Women")
+) && showSizeChart && (
+  <WomenLowerSizeChart onClose={closeModal} />
+)}
+
+{(
+  data?.subCategory.includes("Undergarments") || 
+  data?.subCategory.includes("Briefs")
+) && data?.gender.includes("Men") && showSizeChart && (
+  <MenUnderWear onClose={closeModal} />
+)}
+
+{(
+  (data?.subCategory.includes("Undergarments") || 
+   data?.subCategory.includes("Panties") ||
+   data?.subCategory.includes("Briefs") ||
+   data?.subCategory.includes("Lingerie")) &&
+  data?.gender.includes("Women")
+) && showSizeChart && (
+  <WomenUnderWear onClose={closeModal} />
+)}
+
+{data?.subCategory.includes("Vests") ||data?.subCategory.includes("Undershirts") && data?.gender.includes("Men") && showSizeChart && (
+  <MenVest onClose={closeModal} />
+)}
+
+{(
+  data?.subCategory.includes("Bras") || 
+  data?.subCategory.includes("Inners") || 
+  data?.subCategory.includes("Undershirts") || 
+  data?.subCategory.includes("Vests") || 
+  data?.subCategory.includes("Sports bras")
+) && data?.gender.includes("Women") && showSizeChart && (
+  <WomenVest onClose={closeModal} />
+)}
+
+{(
+  data?.category.includes("Footwear") && 
+  (data?.gender.includes("Men") || data?.gender.includes("Unisex") || data?.gender.includes("Women"))
+) && showSizeChart && (
+  <MenShoes onClose={closeModal} />
+)}
+
+{(
+  (data?.subCategory.includes("Half pants") || 
+   data?.subCategory.includes("Boxers") || 
+   data?.subCategory.includes("Yoga pants") || 
+   data?.subCategory.includes("Running shorts") || 
+   data?.subCategory.includes("Shorts") || 
+   data?.subCategory.includes("Three-quarter")) &&
+  data?.gender.includes("Men")
+) && showSizeChart && (
+  <MenLowerHalfPant onClose={closeModal} />
+)}
+
+        
+
+      
+                      <div className="flex flex-wrap mt-4">
                         {data.stock.map((item) => {
                           // Calculate the isAvailable variable outside of the JSX
                           const isAvailable = item.quantity > 0;
@@ -470,7 +737,7 @@ const ProductDetails = ({ data }) => {
                         }}
                       >
                         <span className="text-white flex items-center font-bold">
-                          Add to Cart2{" "}
+                          Add to Cart{" "}
                           <AiOutlineShoppingCart className="ml-2" size={20} />
                         </span>
                       </div>
@@ -532,7 +799,7 @@ const ProductDetails = ({ data }) => {
                       }}
                     >
                       <span className="text-white flex items-center font-bold">
-                        Add to Cart3{" "}
+                        Add to Cart{" "}
                         <AiOutlineShoppingCart className="ml-2" size={20} />
                       </span>
                     </div>
@@ -643,7 +910,7 @@ const ProductDetailsInfo = ({
   averageRating,
   a,
 }) => {
-  const [active, setActive] = useState(3);
+  const [active, setActive] = useState(1);
   const getFirstLetter = (name) => {
     if (!name) return '';
     return name.charAt(0).toUpperCase();
@@ -699,7 +966,7 @@ const ProductDetailsInfo = ({
       {active === 1 ? (
         <>
           <p className="py-2 text-[16px] pb-10 whitespace-pre-line overflow-hidden break-words">
-          {data.description.replace(/\\n/g, ' ')}
+          {data.description.replace(/\\n/g, ' ')}
           </p>
         </>
       ) : null}
@@ -762,7 +1029,7 @@ const ProductDetailsInfo = ({
                   {data.shop?.createdAt?.slice(0, 10)}
                 </span>
               </h5> */}
-              <h5 className="font-[600] pt-3">
+              {/* <h5 className="font-[600] pt-3">
                 Total Products:{" "}
                 <span className="font-[500]">
                   {products && products.length}
@@ -771,7 +1038,7 @@ const ProductDetailsInfo = ({
               <h5 className="font-[600] pt-3">
                 Total Reviews:{" "}
                 <span className="font-[500]">{totalReviewsLength}</span>
-              </h5>
+              </h5> */}
               <Link to={`/shop/preview/${data.shopId}`}>
                 <div
                   className={`${styles.button} !bg-flipkart-blue !rounded-[4px] !h-[39.5px] mt-3`}

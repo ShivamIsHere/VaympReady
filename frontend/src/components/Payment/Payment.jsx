@@ -264,11 +264,47 @@ const PaymentInfo = ({
             ) : null}
           </div>
           <h4 className="text-[18px] pl-2 font-[600] text-[#000000b1]">
-            UPI Payment Coming Soon
+            Online payment
           </h4>
         </div>
 
         {/* pay with card */}
+        {select === 1 ? (
+          <div className="w-full flex">
+            <form className="w-full" onSubmit={cashOnDeliveryHandler}>
+            <div className="flex flex-col items-center bg-gray-50 p-4 rounded-lg shadow-lg max-w-md mx-auto">
+              <img
+                src={`${process.env.PUBLIC_URL}/upi.jpg`}
+                alt="Vaymp"
+                className="h-[250px] w-auto rounded-md mb-4"
+              />
+              <div className="text-center">
+                <p className="text-lg font-semibold text-gray-700 mb-1">Payment Via UPI:</p>
+                <p className="text-xl font-bold text-purple-600 bg-purple-100 px-4 py-2 rounded-md shadow-sm">
+                  1846singh@okaxis
+                </p>
+              </div>
+            </div>
+
+              {loading ? (
+                <div className="w-full flex justify-center">
+                  <RotatingLines
+                    height={50}
+                    width={50}
+                    strokeColor="#2563EB" 
+                    ariaLabel="circles-loading"
+                  />
+                </div>
+              ) : (
+                <input
+                  type="submit"
+                  value="Payment Successful"
+                  className={`${styles.button} !bg-flipkart-orange text-[#fff] h-[45px] w-[180px] rounded-[5px] cursor-pointer text-[18px] font-[600]`}
+                />
+              )}
+            </form>
+          </div>
+        ) : null}
         {/* {select === 1 ? (
           <div className="w-full flex border-b">
             <form className="w-full" onSubmit={paymentHandler}>

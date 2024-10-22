@@ -10,30 +10,36 @@ import { RxCross1 } from "react-icons/rx";
 import axios from "axios";
 import { server } from "../../server";
 import { toast } from "react-toastify";
+import Loader from "../Layout/Loader";
 
 const AllUsers = () => {
   const dispatch = useDispatch();
   const { users } = useSelector((state) => state.user);
+  const [loading, setLoading] = useState(true); // Loading state
   const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState("");
 
   useEffect(() => {
-    dispatch(getAllUsers());
+    const fetchUsers = async () => {
+      setLoading(true); // Set loading to true when fetching data
+      await dispatch(getAllUsers());
+      setLoading(false); // Set loading to false once data is fetched
+    };
+    fetchUsers();
   }, [dispatch]);
 
   const handleDelete = async (id) => {
     await axios
-    .delete(`${server}/user/delete-user/${id}`, { withCredentials: true })
-    .then((res) => {
-      toast.success(res.data.message);
-    });
+      .delete(`${server}/user/delete-user/${id}`, { withCredentials: true })
+      .then((res) => {
+        toast.success(res.data.message);
+      });
 
-  dispatch(getAllUsers());
+    dispatch(getAllUsers());
   };
 
   const columns = [
     { field: "id", headerName: "User ID", minWidth: 150, flex: 0.7 },
-
     {
       field: "name",
       headerName: "name",
@@ -54,7 +60,6 @@ const AllUsers = () => {
       minWidth: 130,
       flex: 0.7,
     },
-
     {
       field: "joinedAt",
       headerName: "joinedAt",
@@ -62,7 +67,6 @@ const AllUsers = () => {
       minWidth: 130,
       flex: 0.8,
     },
-
     {
       field: " ",
       flex: 1,
@@ -98,15 +102,24 @@ const AllUsers = () => {
     <div className="w-full flex justify-center pt-5">
       <div className="w-[97%]">
         <h3 className="text-[22px] font-Poppins pb-2">All Users</h3>
-        <div className="w-full min-h-[45vh] bg-white rounded">
-          <DataGrid
-            rows={row}
-            columns={columns}
-            pageSize={10}
-            disableSelectionOnClick
-            autoHeight
-          />
-        </div>
+
+        {/* Loader logic */}
+        {loading ? (
+          <div className="flex justify-center items-center min-h-[45vh]">
+            <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
+          </div>
+        ) : (
+          <div className="w-full min-h-[45vh] bg-white rounded">
+            <DataGrid
+              rows={row}
+              columns={columns}
+              pageSize={10}
+              disableSelectionOnClick
+              autoHeight
+            />
+          </div>
+        )}
+
         {open && (
           <div className="w-full fixed top-0 left-0 z-[999] bg-[#00000039] flex items-center justify-center h-screen">
             <div className="w-[95%] 800px:w-[40%] min-h-[20vh] bg-white rounded shadow p-5">
@@ -125,7 +138,7 @@ const AllUsers = () => {
                 </div>
                 <div
                   className={`${styles.button} text-white text-[18px] !h-[42px] ml-4`}
-                  onClick={() =>  setOpen(false) || handleDelete(userId)}
+                  onClick={() => setOpen(false) || handleDelete(userId)}
                 >
                   confirm
                 </div>

@@ -4,26 +4,27 @@ import { Button, FormControl, MenuItem, Select } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
 import { AiOutlineDelete, AiOutlineEye } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom"; // For React Router v6
+import { useNavigate, useLocation, useParams } from "react-router-dom"; // For React Router v6
 import { Link } from "react-router-dom";
 import { getAllProductsShop, deleteProduct, updateProductStock } from "../../redux/actions/product";
 import Loader from "../Layout/Loader";
 import BasicPagination from "../../pages/BasicPagination"
-const AllProducts = () => {
+const AdminAllProducts = () => {
   const { products, isLoading, totalPages} = useSelector((state) => state.products);
   const { seller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-
+  const id=useParams()
+  console.log("sellerid",id.id)
   const queryParams = new URLSearchParams(location.search);
   const initialPage = parseInt(queryParams.get("page")) || 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
 
   console.log("111111111",currentPage)
   useEffect(() => {
-    dispatch(getAllProductsShop(seller._id, currentPage));
-  }, [dispatch, seller._id, currentPage]);
+    dispatch(getAllProductsShop(id.id, currentPage));
+  }, [dispatch, id.id, currentPage]);
 
   const handlePageChange = (value) => {
     setCurrentPage(value);
@@ -109,7 +110,7 @@ const AllProducts = () => {
                 key={product._id}
                 className="relative bg-gradient-to-r from-blue-50 to-blue-50 border border-gray-300 rounded-lg shadow-lg transform transition-transform hover:scale-105 hover:shadow-xl p-4"
               >
-                {/* <Link to={`/product/${product._id}`}> */}
+                <Link to={`/product/${product._id}`}>
                   <div className="w-full h-48 relative overflow-hidden rounded-t-lg">
                     <img
                       src={product.images[0]?.url}
@@ -117,7 +118,7 @@ const AllProducts = () => {
                       className="w-full h-full object-contain transition-transform duration-300 ease-in-out hover:scale-110"
                     />
                   </div>
-                {/* </Link> */}
+                </Link>
                 
                 <div className="p-2 flex flex-col h-full">
                   <div
@@ -168,11 +169,11 @@ const AllProducts = () => {
                     >
                       Update
                     </button>
-                    {/* <Link to={`/product/${product._id}`}>
+                    <Link to={`/product/${product._id}`}>
                       <button className="text-blue-500 text-sm hover:text-blue-700 transition-colors duration-300">
                         <AiOutlineEye size={18} />
                       </button>
-                    </Link> */}
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -199,4 +200,4 @@ const AllProducts = () => {
   );
 };
 
-export default AllProducts;
+export default AdminAllProducts;

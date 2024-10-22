@@ -798,8 +798,27 @@ export const navItems = [
     {
       id: 20,
       title: "Phone Cases"
-    }
+    },
+    {
+      id: 21,
+      title: "Perfumes"
+    },
+    {
+      id: 22,
+      title: "Ear Rings"
+    },
+    {
+      id: 23,
+      title: "Lipstick"
+    },
   ];
+export const fragrance=[
+  { "id": 1, "type": "Fresh" },
+  { "id": 2, "type": "Floral" },
+  { "id": 3, "type": "Woody" },
+  { "id": 4, "type": "Fruity" },
+  { "id": 5, "type": "Oriental" },
+];
 
   export const pattern= [
     { "id": 1, "type": "Animal Print" },

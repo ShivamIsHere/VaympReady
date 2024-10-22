@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllProductsShop } from "../../redux/actions/product";
 import { BsShop } from "react-icons/bs";
 import { AiFillStar } from "react-icons/ai";
+import { IoArrowBack } from "react-icons/io5";
 
 const ShopInfo = ({ isOwner }) => {
   const [data, setData] = useState({});
@@ -16,7 +17,7 @@ const ShopInfo = ({ isOwner }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-console.log("first111111111",totalPage)
+
   useEffect(() => {
     dispatch(getAllProductsShop(id));
     setIsLoading(true);
@@ -31,7 +32,7 @@ console.log("first111111111",totalPage)
         setIsLoading(false);
       });
   }, [dispatch, id]);
-console.log(data)
+
   const logoutHandler = async () => {
     try {
       await axios.get(`${server}/shop/logout`, { withCredentials: true });
@@ -67,6 +68,17 @@ console.log(data)
         <>
           <div className="md:hidden">
             <div className="w-full py-2">
+            <button
+  className="fixed top-0 left-0 flex items-center cursor-pointer bg-slate-200 text-black px-1 py-1 rounded-md shadow-lg transition-transform hover:scale-105 active:scale-95 z-50"
+  onClick={() => navigate('/shop')}
+>
+  <IoArrowBack className="text-[30px]" />
+  <span className="ml-1 font-semibold">Shops Page</span>
+</button>
+
+
+
+
               <div className="w-full flex item-center justify-center">
                 <div className="w-[150px] h-[150px] flex items-center justify-center rounded-full bg-slate-200">
                   <BsShop className="w-[85px] h-[85px] text-black-500 object-contain" />
@@ -112,7 +124,7 @@ console.log(data)
                   <div
                     className={`${styles.button} !w-full !h-[42px] !rounded-[5px]`}
                   >
-                    <span className="text-white">Edit Shop2</span>
+                    <span className="text-white">Edit Shop</span>
                   </div>
                 </Link>
                 <Link to="/shop-login">
@@ -174,7 +186,7 @@ console.log(data)
             <div className="py-3 px-4">
               <Link to="/settings">
                 <div className={`${styles.button} !w-full !h-[42px] !rounded-[5px]`}>
-                  <span className="text-white">Edit Shopy</span>
+                  <span className="text-white">Edit Shop</span>
                 </div>
               </Link>
               <Link to="/shop-login">

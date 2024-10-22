@@ -22,6 +22,7 @@ import {
   shoeOccasions,
   fit,
   gender,
+  fragrance,
 } from "../../static/data";
 import { useParams } from "react-router-dom";
 
@@ -63,6 +64,7 @@ const CreateProduct = () => {
   const [selectedFabric, setSelectedFabric] = useState([]);
   const [selectedRatings, setSelectedRatings] = useState("");
   const [selectedPattern, setSelectedPattern] = useState([]);
+  const [selectedFragrance, setSelectedFragrance] = useState([]);
   const [selectedOccasion, setSelectedOccasion] = useState([]);
   const [selectedShoesOccasion, setSelectedShoesOccasion] = useState([]);
   const [selectedFit, setSelectedFit] = useState([]);
@@ -262,6 +264,8 @@ const CreateProduct = () => {
     "10E",
     "10D",
     "10A",
+    "10 ml","20 ml", "30 ml", "40 ml", "50 ml", "60 ml", "70 ml", "80 ml", "90 ml", "100 ml", "110 ml", "120 ml", "130 ml", "140 ml", "150 ml", "160 ml", "170 ml", "180 ml", "190 ml", "200 ml", "210 ml", "220 ml", "230 ml", "240 ml", "250 ml", "260 ml", "270 ml", "280 ml", "290 ml", "300 ml", "310 ml", "320 ml", "330 ml", "340 ml", "350 ml", "360 ml", "370 ml", "380 ml", "390 ml", "400 ml", "410 ml", "420 ml", "430 ml", "440 ml", "450 ml", "460 ml", "470 ml", "480 ml", "490 ml", "25 ml", "35 ml", "45 ml", "55 ml", "65 ml", "75 ml", "85 ml", "95 ml", "105 ml", "115 ml", "125 ml", "135 ml", "145 ml", "155 ml", "165 ml", "175 ml", "185 ml", "195 ml", "205 ml", "215 ml", "225 ml", "235 ml", "245 ml", "255 ml", "265 ml", "275 ml", "285 ml", "295 ml", "305 ml", "315 ml", "325 ml", "335 ml", "345 ml", "355 ml", "365 ml", "375 ml", "385 ml", "395 ml", "405 ml", "415 ml", "425 ml", "435 ml", "445 ml", "455 ml", "465 ml", "475 ml", "485 ml", "495 ml"
+
   ];
   useEffect(() => {
     if (error) {
@@ -339,7 +343,17 @@ const CreateProduct = () => {
       );
     }
   };
+  const handleFragranceChange = (e) => {
+    const { value, checked } = e.target;
 
+    if (checked) {
+      setSelectedFragrance((prevFragrances) => [...prevFragrances, value]);
+    } else {
+      setSelectedFragrance((prevFragrances) =>
+        prevFragrances.filter((fragrance) => fragrance !== value)
+      );
+    }
+  };
   const handleOccasionChange = (e) => {
     const { value, checked } = e.target;
 
@@ -505,6 +519,7 @@ const CreateProduct = () => {
       selectedAccessoriesSubCategory.join(",")
     );
     newForm.append("neckType", selectedNeckType.join(","));
+    newForm.append("fragrance", selectedFragrance.join(","));
     newForm.append("sleeveType", selectedSleeveType.join(","));
     newForm.append("brand", selectedBrand);
     newForm.append("color", selectedColor.join(","));
@@ -535,6 +550,7 @@ const CreateProduct = () => {
         sleeveType: selectedSleeveType,
         brand: selectedBrand,
         color: selectedColor,
+        fragrance: selectedFragrance,
         fabric: selectedFabric,
         ratings: selectedRatings,
         pattern: selectedPattern,
@@ -773,6 +789,40 @@ const CreateProduct = () => {
           </div>
         )}
         <br />
+
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+
+        {selectedAccessoriesSubCategory[0] === "Perfumes" && (
+          <div>
+            <label className="pb-2">Fragrance</label>
+            <div className="mt-2">
+              {fragrance.map((type) => (
+                <div key={type.type}>
+                  <input
+                    type="checkbox"
+                    id={type.type}
+                    value={type.type}
+                    onChange={handleFragranceChange}
+                    checked={selectedFragrance.includes(
+                      type.type
+                    )}
+                  />
+                  <label htmlFor={type.type} className="ml-2">
+                    {type.type}
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <br/>
+        <br/>
+        <br/>
+
         {category === "Clothes" && (
           <div>
             <label className="pb-2">Neck Type</label>

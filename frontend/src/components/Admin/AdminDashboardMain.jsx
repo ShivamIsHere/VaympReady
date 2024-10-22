@@ -165,7 +165,7 @@ const adminEarning = data && data.reduce((acc, item) => {
                 All Orders
               </h3>
             </div>
-            <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">{adminOrders && adminOrders.length}</h5>
+            <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">{data && data.length}</h5>
             <Link to="/admin-orders">
               <h5 className="pt-4 pl-2 text-[#077f9c]">View Orders</h5>
             </Link>
